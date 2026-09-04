@@ -5,6 +5,16 @@
   const RATE_LIMIT_MAX = 3;
   const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
   const MIN_FORM_DELAY_MS = 3000;
+  const FORM_ENDPOINT =
+    "https://formsubmit.co/ajax/bsivanandame@hayagreevaenergy.com";
+
+  const INTEREST_LABELS = {
+    pilot: "Pilot evaluation — Hayagreeva HEx",
+    technical: "Technical information / fact sheet",
+    oem: "OEM / manufacturing partnership",
+    career: "Career inquiry",
+    media: "Media / press",
+  };
 
   document.addEventListener("securitypolicyviolation", (event) => {
     console.warn("[CSP violation]", event.violatedDirective, event.blockedURI);
@@ -100,7 +110,7 @@
   }
   csrfField.value = csrfToken;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const honeypot = form.querySelector('input[name="website"]');
@@ -122,8 +132,10 @@
     const name = stripMarkup(form.querySelector("#name")?.value);
     const email = stripMarkup(form.querySelector("#email")?.value);
     const company = stripMarkup(form.querySelector("#company")?.value);
+    const interestValue = stripMarkup(form.querySelector("#interest")?.value);
     const message = stripMarkup(form.querySelector("#message")?.value);
     const token = form.querySelector('input[name="csrf_token"]')?.value || "";
+    const interestLabel = INTEREST_LABELS[interestValue] || interestValue;
 
     if (!name || name.length < 2 || name.length > 120) {
       showFormStatus(form, "Enter a valid name (2–120 characters).", true);
@@ -138,6 +150,11 @@
 
     if (company.length > 160) {
       showFormStatus(form, "Company name is too long.", true);
+      return;
+    }
+
+    if (!interestValue || !INTEREST_LABELS[interestValue]) {
+      showFormStatus(form, "Select a valid interest.", true);
       return;
     }
 
@@ -164,21 +181,58 @@
       submitBtn.setAttribute("aria-busy", "true");
     }
 
-    recordSubmission();
-    showFormStatus(
-      form,
-      "Inquiry validated locally. Connect this form to your secure backend before production use.",
-      false
-    );
+    showFormStatus(form, "Sending your inquiry…", false);
 
-    form.reset();
-    csrfField.value = csrfToken;
+    const payload = {
+      name,
+      email,
+      company: company || "—",
+      interest: interestLabel,
+      message: message || "—",
+      _subject: `Hayagreeva inquiry — ${interestLabel}`,
+      _template: "table",
+      _replyto: email,
+      _honey: honeypot ? honeypot.value : "",
+      _blacklist: "spam,viagra,crypto",
+    };
 
-    if (submitBtn) {
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.removeAttribute("aria-busy");
-      }, 5000);
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success === "false" || result.success === false) {
+        throw new Error(result.message || "Delivery failed");
+      }
+
+      recordSubmission();
+      showFormStatus(
+        form,
+        "Thank you. Your inquiry was sent to Hayagreeva Energy.",
+        false
+      );
+      form.reset();
+      csrfField.value = csrfToken;
+    } catch {
+      showFormStatus(
+        form,
+        "We could not send your inquiry right now. Email bsivanandame@hayagreevaenergy.com directly, or try again shortly.",
+        true
+      );
+    } finally {
+      if (submitBtn) {
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute("aria-busy");
+        }, 4000);
+      }
     }
   });
 })();
