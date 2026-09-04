@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /pages/hayagreeva-energy/
+Disallow: /pages/archive/
+
+# Demo site — restrict indexing of archived trial pages

@@ -1,0 +1,7 @@
+Contact: mailto:security@hayagreeva.example
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://kryophorax.github.io/trialwebpages/.well-known/security.txt
+
+# Hayagreeva Energy — security contact
+# Report vulnerabilities responsibly to security@hayagreeva.example
