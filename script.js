@@ -1,243 +1,134 @@
 (() => {
-  "use strict";
+  const rotatorWords = ["GPUs.", "CPUs.", "Accelerators.", "AI Racks.", "HPC Systems."];
+  const rotatorEl = document.getElementById("rotator-word");
+  let rotatorIndex = 0;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const q = (sel, root) => (root || document).querySelector(sel);
-  const qa = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  function cycleRotator() {
+    if (!rotatorEl) return;
+    rotatorEl.classList.add("fade");
+    setTimeout(() => {
+      rotatorIndex = (rotatorIndex + 1) % rotatorWords.length;
+      rotatorEl.textContent = rotatorWords[rotatorIndex];
+      rotatorEl.classList.remove("fade");
+    }, 350);
+  }
 
-  /* —— Mobile nav —— */
-  const header = q(".site-header");
-  const toggle = q(".nav-toggle");
-  const nav = q("#site-nav") || q(".site-nav");
+  setInterval(cycleRotator, 2800);
 
-  function setNavOpen(open) {
-    if (!toggle || !nav) return;
-    nav.classList.toggle("is-open", open);
-    document.body.classList.toggle("nav-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    if (open) {
-      const first = qa("a, button", nav)[0];
-      if (first) first.focus({ preventScroll: true });
-    } else {
-      toggle.focus({ preventScroll: true });
+  const root = document.getElementById("snap-root");
+  if (!root) return;
+
+  const sections = Array.from(document.querySelectorAll("section[data-section]"));
+  const dots = Array.from(document.querySelectorAll(".nav-dot"));
+
+  function setActiveDot(name) {
+    dots.forEach((dot) => {
+      dot.classList.toggle("active", dot.dataset.target === name);
+    });
+  }
+
+  function scrollToSection(name) {
+    const target =
+      document.querySelector(`section[name="${name}"]`) ||
+      document.getElementById(name);
+    if (target && root) {
+      root.scrollTo({ top: target.offsetTop, behavior: "smooth" });
     }
   }
 
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => setNavOpen(!nav.classList.contains("is-open")));
-    nav.querySelectorAll("a").forEach((link) =>
-      link.addEventListener("click", () => setNavOpen(false))
-    );
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => scrollToSection(dot.dataset.target));
+  });
 
-    document.addEventListener("keydown", (e) => {
-      if (!nav.classList.contains("is-open")) return;
-      if (e.key === "Escape") {
-        e.preventDefault();
-        setNavOpen(false);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const focusable = qa("a[href], button:not([disabled])", nav);
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    const id = link.getAttribute("href").slice(1);
+    if (!id || !document.querySelector(`section[name="${id}"]`)) return;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      scrollToSection(id);
     });
-  }
+  });
 
-  /* —— Header scroll —— */
-  if (header) {
-    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  /* —— Matrix stage tabs + layer visibility —— */
-  const STAGE_LAYERS = {
-    full: ["full", "plate", "matrix", "product"],
-    plate: ["plate", "product"],
-    matrix: ["plate", "matrix"],
-    flow: ["plate", "matrix", "flow"],
-    thermal: ["plate", "matrix", "thermal"],
-    product: ["full", "plate", "matrix", "product"],
-  };
-
-  const matrix = q(".matrix-stage");
-  if (matrix) {
-    const tabs = qa('[role="tablist"] [role="tab"]', matrix);
-    const panels = qa(".matrix-stage__panel, .matrix-panel", matrix);
-    const layers = qa(".matrix-layer", matrix);
-    const visual = q(".matrix-visual, #matrix-svg", matrix);
-
-    function activateTab(tab) {
-      if (!tab) return;
-      const stage = tab.getAttribute("data-stage") || String(tabs.indexOf(tab));
-      const panelId = tab.getAttribute("aria-controls");
-
-      tabs.forEach((t) => {
-        const on = t === tab;
-        t.setAttribute("aria-selected", String(on));
-        t.classList.toggle("is-active", on);
-        t.tabIndex = on ? 0 : -1;
-      });
-
-      panels.forEach((panel) => {
-        const match = panelId
-          ? panel.id === panelId
-          : panel.getAttribute("data-stage") === stage;
-        panel.hidden = !match;
-        panel.classList.toggle("is-active", match);
-      });
-
-      if (visual) visual.setAttribute("data-stage", stage);
-
-      const visible = STAGE_LAYERS[stage] || ["full", "plate", "matrix"];
-      layers.forEach((layer) => {
-        const name = layer.getAttribute("data-layer") || "";
-        layer.classList.toggle("is-visible", visible.includes(name));
-      });
-    }
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => activateTab(tab));
-      tab.addEventListener("keydown", (e) => {
-        const i = tabs.indexOf(tab);
-        let next = -1;
-        if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % tabs.length;
-        if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
-        if (e.key === "Home") next = 0;
-        if (e.key === "End") next = tabs.length - 1;
-        if (next < 0) return;
-        e.preventDefault();
-        tabs[next].focus();
-        activateTab(tabs[next]);
-      });
-    });
-
-    activateTab(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
-  }
-
-  /* —— Architecture flow —— */
-  const archSteps = qa(".arch-flow__step, .arch-step");
-
-  if (archSteps.length) {
-    function showArch(step) {
-      archSteps.forEach((s) => {
-        const on = s === step;
-        s.classList.toggle("is-active", on);
-        s.setAttribute("aria-expanded", String(on));
-      });
-    }
-
-    archSteps.forEach((step) => {
-      step.addEventListener("click", () => showArch(step));
-      step.addEventListener("focus", () => showArch(step));
-    });
-
-    showArch(archSteps.find((s) => s.classList.contains("is-active")) || archSteps[0]);
-  }
-
-  /* —— Hero: watts reveal + coolant flow (Anime.js) —— */
-  const hero = q(".hero");
-  const wattsEl = q("[data-watts]");
-
-  function revealWatts() {
-    if (!wattsEl) return;
-    const target = parseInt(wattsEl.getAttribute("data-watts-target") || "5000", 10);
-    if (reduceMotion || typeof anime === "undefined") {
-      wattsEl.textContent = target.toLocaleString("en-US");
-      return;
-    }
-    const obj = { v: 0 };
-    anime({
-      targets: obj,
-      v: target,
-      round: 1,
-      duration: 1600,
-      easing: "easeOutExpo",
-      update() {
-        wattsEl.textContent = Math.round(obj.v).toLocaleString("en-US");
-      },
-      complete() {
-        wattsEl.textContent = target.toLocaleString("en-US");
-      },
-    });
-  }
-
-  function animateFlow() {
-    if (reduceMotion || typeof anime === "undefined") return;
-    qa(".hv-dot").forEach((dot, i) => {
-      const path = document.getElementById(dot.getAttribute("data-path"));
-      if (!path) return;
-      const len = path.getTotalLength();
-      anime({
-        targets: dot,
-        opacity: [0, 1, 1, 0],
-        duration: 2600,
-        delay: i * 320,
-        loop: true,
-        easing: "linear",
-        update(anim) {
-          const p = path.getPointAtLength((anim.progress / 100) * len);
-          dot.setAttribute("cx", p.x);
-          dot.setAttribute("cy", p.y);
-        },
-      });
-    });
-    qa(".hv-heat-path").forEach((p, i) => {
-      anime({
-        targets: p,
-        strokeDashoffset: [0, -40],
-        duration: 1400,
-        delay: i * 120,
-        loop: true,
-        easing: "linear",
-      });
-    });
-  }
-
-  if (hero) {
-    if ("IntersectionObserver" in window) {
-      const heroObs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            revealWatts();
-            animateFlow();
-            heroObs.disconnect();
-          });
-        },
-        { threshold: 0.3 }
-      );
-      heroObs.observe(hero);
-    } else {
-      revealWatts();
-      animateFlow();
-    }
-  }
-
-  /* —— Reveal —— */
-  const revealEls = qa("[data-reveal]");
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    revealEls.forEach((el) => el.classList.add("is-visible"));
-  } else if (revealEls.length) {
-    const revealObs = new IntersectionObserver(
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          revealObs.unobserve(entry.target);
-        });
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) {
+          const name =
+            visible.target.getAttribute("name") ||
+            visible.target.id;
+          if (name) setActiveDot(name);
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { root, threshold: [0.35, 0.55, 0.75] }
     );
-    revealEls.forEach((el) => revealObs.observe(el));
+    sections.forEach((section) => observer.observe(section));
+    const footer = document.getElementById("footer");
+    if (footer) observer.observe(footer);
+  }
+
+  const hero = document.querySelector(".hero");
+  if (!hero) return;
+
+  const textSlides = Array.from(hero.querySelectorAll(".hero-text-slide"));
+  const visualSlides = Array.from(hero.querySelectorAll(".hero-slide"));
+  const heroDots = Array.from(hero.querySelectorAll(".hero-dot"));
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let index = 0;
+  let timer = null;
+  const INTERVAL = 6500;
+
+  function setHeroSlide(next) {
+    index = (next + textSlides.length) % textSlides.length;
+
+    textSlides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle("is-active", active);
+      slide.hidden = !active;
+    });
+
+    visualSlides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle("is-active", active);
+      slide.hidden = !active;
+      const video = slide.querySelector("video");
+      if (video) {
+        if (active) video.play().catch(() => {});
+        else video.pause();
+      }
+    });
+
+    heroDots.forEach((dot, i) => {
+      const active = i === index;
+      dot.classList.toggle("is-active", active);
+      dot.setAttribute("aria-selected", String(active));
+    });
+  }
+
+  function startAutoplay() {
+    if (reduced) return;
+    clearInterval(timer);
+    timer = setInterval(() => setHeroSlide(index + 1), INTERVAL);
+  }
+
+  heroDots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      setHeroSlide(Number(dot.dataset.slide));
+      startAutoplay();
+    });
+  });
+
+  hero.addEventListener("mouseenter", () => clearInterval(timer));
+  hero.addEventListener("mouseleave", startAutoplay);
+
+  setHeroSlide(0);
+  startAutoplay();
+
+  const firstVideo = hero.querySelector("video");
+  if (firstVideo) {
+    firstVideo.play().catch(() => firstVideo.remove());
   }
 })();
