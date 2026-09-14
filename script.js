@@ -144,6 +144,85 @@
     showArch(archSteps.find((s) => s.classList.contains("is-active")) || archSteps[0]);
   }
 
+  /* —— Hero: watts reveal + coolant flow (Anime.js) —— */
+  const hero = q(".hero");
+  const wattsEl = q("[data-watts]");
+
+  function revealWatts() {
+    if (!wattsEl) return;
+    const target = parseInt(wattsEl.getAttribute("data-watts-target") || "5000", 10);
+    if (reduceMotion || typeof anime === "undefined") {
+      wattsEl.textContent = target.toLocaleString("en-US");
+      return;
+    }
+    const obj = { v: 0 };
+    anime({
+      targets: obj,
+      v: target,
+      round: 1,
+      duration: 1600,
+      easing: "easeOutExpo",
+      update() {
+        wattsEl.textContent = Math.round(obj.v).toLocaleString("en-US");
+      },
+      complete() {
+        wattsEl.textContent = target.toLocaleString("en-US");
+      },
+    });
+  }
+
+  function animateFlow() {
+    if (reduceMotion || typeof anime === "undefined") return;
+    qa(".hv-dot").forEach((dot, i) => {
+      const path = document.getElementById(dot.getAttribute("data-path"));
+      if (!path) return;
+      const len = path.getTotalLength();
+      anime({
+        targets: dot,
+        opacity: [0, 1, 1, 0],
+        duration: 2600,
+        delay: i * 320,
+        loop: true,
+        easing: "linear",
+        update(anim) {
+          const p = path.getPointAtLength((anim.progress / 100) * len);
+          dot.setAttribute("cx", p.x);
+          dot.setAttribute("cy", p.y);
+        },
+      });
+    });
+    qa(".hv-heat-path").forEach((p, i) => {
+      anime({
+        targets: p,
+        strokeDashoffset: [0, -40],
+        duration: 1400,
+        delay: i * 120,
+        loop: true,
+        easing: "linear",
+      });
+    });
+  }
+
+  if (hero) {
+    if ("IntersectionObserver" in window) {
+      const heroObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            revealWatts();
+            animateFlow();
+            heroObs.disconnect();
+          });
+        },
+        { threshold: 0.3 }
+      );
+      heroObs.observe(hero);
+    } else {
+      revealWatts();
+      animateFlow();
+    }
+  }
+
   /* —— Reveal —— */
   const revealEls = qa("[data-reveal]");
   if (reduceMotion || !("IntersectionObserver" in window)) {
