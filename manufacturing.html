@@ -3,81 +3,117 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' https://cdn.jsdelivr.net; connect-src 'self'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
   <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-  <meta name="theme-color" content="#15324A" />
-  <meta name="description" content="Hayagreeva manufacturing — precision production for direct-to-chip liquid cooling cold plates." />
-  <title>Manufacturing — Hayagreeva</title>
+  <meta name="theme-color" content="#0c0e10" />
+  <meta name="description" content="Hayagreeva manufacturing — from CAD to copper for direct-to-chip liquid cooling cold plates." />
+  <title>Manufacturing — Hayagreeva Energy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header class="site-header">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
     <div class="header-inner">
-      <a class="site-logo" href="index.html" aria-label="Hayagreeva — Landing">
+      <a class="site-logo" href="index.html" aria-label="Hayagreeva Energy home">
         <img src="assets/logo.png" alt="Hayagreeva" width="240" height="35" />
       </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-        <span class="visually-hidden">Menu</span>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
-        <a href="products.html">Products</a>
+        <a href="products.html">Product</a>
         <a href="technology.html">Technology</a>
-        <a href="career.html">Career</a>
         <a href="manufacturing.html" class="is-active" aria-current="page">Manufacturing</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact/Webform</a>
+        <a href="applications.html">Applications</a>
+        <a href="about.html">Company</a>
+        <a class="btn btn-primary nav-cta" href="contact.html">Request Evaluation</a>
       </nav>
     </div>
   </header>
 
-  <main class="page-main">
+  <main id="main" class="page-main">
     <section class="page-hero page-hero--photo page-hero--manufacturing">
       <div class="section-inner">
         <p class="section-kicker">Manufacturing</p>
-        <h1 class="page-title">Precision production for high-wattage cold plates</h1>
+        <h1 class="page-title">From CAD to copper</h1>
         <p class="page-lead">
-          Hayagreeva HEx combines copper-matrix thermal architecture with manufacturing
-          processes built for repeatability, traceability, and package-specific integration
-          at scale.
+          Process stages aligned with thermal design — from computational geometry to validated
+          production units for Hayagreeva HEx.
         </p>
       </div>
     </section>
 
     <section class="section-light">
-      <div class="section-inner split">
-        <div>
-          <h2 class="section-title">From prototype to pilot scale</h2>
-          <div class="section-body">
-            <p>
-              Manufacturing is aligned with the thermal design — wetted surface geometry,
-              fluid paths, and mounting interfaces must hold tolerance under production
-              conditions to deliver rated performance at the package.
-            </p>
-            <p class="muted">
-              Pilot programmes with qualified partners inform process validation before
-              broader deployment with data-center operators and OEM platforms.
-            </p>
+      <div class="section-inner">
+        <h2 class="section-title">Process timeline</h2>
+        <p class="section-lead">
+          Manufacturing is aligned with the thermal design — wetted surface geometry,
+          fluid paths, and mounting interfaces must hold tolerance under production
+          conditions to deliver rated performance at the package.
+        </p>
+
+        <div class="mfg-timeline" role="list">
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Computational design</h3>
+            <p>Geometry and fluid paths defined for package-level heat flux.</p>
           </div>
-        </div>
-        <div class="media-frame">
-          <img src="assets/stock/manufacturing-lab.jpg" alt="Engineering laboratory and production workspace" width="600" height="450" loading="lazy" />
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Thermal modeling</h3>
+            <p>Resistance and flow targets validated before fabrication.</p>
+          </div>
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Matrix fabrication</h3>
+            <p>Copper matrix formed for high wetted-surface density.</p>
+          </div>
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Precision manufacturing</h3>
+            <p>Tolerances held for mounting interfaces and leak integrity.</p>
+          </div>
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Assembly</h3>
+            <p>Cold-plate assembly with package-specific fluid connectors.</p>
+          </div>
+          <div class="mfg-timeline__stage" role="listitem">
+            <h3>Thermal validation</h3>
+            <p>Units tested against stated coolant, flow, and inlet conditions.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section-grey">
+      <div class="section-inner split">
+        <div>
+          <h2 class="section-title">Pilot-scale honesty</h2>
+          <div class="section-body">
+            <p>
+              Pilot programmes with qualified partners inform process validation before
+              broader deployment with data-center operators and OEM platforms.
+            </p>
+            <p class="muted">
+              We state pilot-scale status clearly: repeatable processes for qualified partner
+              programmes, not a claim of mass production at hyperscale volumes.
+            </p>
+          </div>
+        </div>
+        <div class="media-frame">
+          <img src="assets/stock/manufacturing-lab.jpg" alt="Engineering laboratory workspace — environment atmosphere, not Hayagreeva production photography" width="600" height="450" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section-light">
       <div class="section-inner">
-        <h2 class="section-title">Quality &amp; traceability</h2>
+        <h2 class="section-title">Quality &amp; validation</h2>
         <div class="feature-grid">
           <div class="feature-card">
             <h3>Incoming inspection</h3>
@@ -92,9 +128,10 @@
             <p>Validation records tied to stated test conditions for engineering review.</p>
           </div>
         </div>
-        <div class="media-banner">
-          <img src="assets/stock/manufacturing-precision.jpg" alt="Precision manufacturing and engineering equipment" width="1200" height="514" loading="lazy" />
+        <div class="media-banner" style="margin-top:2rem">
+          <img src="assets/stock/manufacturing-precision.jpg" alt="Precision manufacturing equipment — atmosphere only, not a photograph of Hayagreeva HEx" width="1200" height="514" loading="lazy" />
         </div>
+        <p class="muted section-note">Environment context only — not product photography of Hayagreeva HEx.</p>
         <div class="validation-panel">
           <h3>Validation &amp; testing</h3>
           <p>
@@ -105,7 +142,7 @@
       </div>
     </section>
 
-    <section class="section-light">
+    <section class="section-grey">
       <div class="section-inner">
         <h2 class="section-title">Production capabilities</h2>
         <div class="feature-grid">
@@ -125,62 +162,50 @@
       </div>
     </section>
 
-    <section class="page-cta section-cta">
+    <section class="cta-band" aria-labelledby="mfg-cta-heading">
       <div class="section-inner cta-inner">
-        <h2>Discuss manufacturing partnership</h2>
+        <h2 id="mfg-cta-heading">Discuss manufacturing partnership</h2>
         <p>OEM platforms and integrators evaluating package-specific cold-plate supply.</p>
-        <a class="btn btn-primary btn-lg" href="contact.html">Contact engineering</a>
+        <a class="btn btn-primary btn-lg" href="contact.html">Request Evaluation</a>
       </div>
     </section>
   </main>
-  <footer class="site-footer">
+
+  <footer class="site-footer" id="footer">
     <div class="footer-main section-inner">
       <div class="footer-brand">
         <a href="index.html" aria-label="Hayagreeva home">
           <img class="footer-logo" src="assets/logo-light.png" alt="Hayagreeva" width="200" height="30" />
         </a>
-        <p class="footer-tagline">Energy · Thermal Engineering</p>
+        <p class="footer-tagline">Cooling the next era of compute</p>
       </div>
-      <div class="footer-col">
-        <h3 class="footer-heading">Products &amp; Services</h3>
-        <ul class="footer-links">
-          <li><a href="products.html">Hayagreeva HEx</a></li>
-          <li><a href="technology.html">Technology</a></li>
-          <li><a href="manufacturing.html">Manufacturing</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <ul class="footer-links footer-links--plain">
-          <li><a href="technology.html">Product Technologies</a></li>
-          <li><a href="contact.html">Contact/Webform</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <ul class="footer-links footer-links--plain">
-          <li><a href="career.html">Careers</a></li>
-        </ul>
-      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <div class="footer-col">
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-links">
+            <li><a href="products.html">Product</a></li>
+            <li><a href="technology.html">Technology</a></li>
+            <li><a href="manufacturing.html">Manufacturing</a></li>
+            <li><a href="applications.html">Applications</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Company</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Company</a></li>
+            <li><a href="career.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
     </div>
     <div class="footer-bar section-inner">
       <div class="footer-legal">
         <span>© 2026 Hayagreeva Energy</span>
-        <a href="contact.html">Privacy Policy</a>
-        <a href="technology.html">Patents</a>
-        <a href="products.html">Product Specs</a>
-      </div>
-      <div class="footer-social">
-        <span class="footer-social-label">Follow Us</span>
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a-2.062 2.062 0 0 1-2.063-2.065 2.062 2.062 0 0 1 2.063-2.063 2.062 2.062 0 0 1 2.064 2.063 2.062 2.062 0 0 1-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
       </div>
     </div>
-  </footer>  <script src="security.js" defer></script>
+  </footer>
+
+  <script src="security.js" defer></script>
 </body>
 </html>
