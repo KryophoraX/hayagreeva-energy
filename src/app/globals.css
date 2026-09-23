@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-hg-bg: #0b0d0f;
+  --color-hg-graphite: #181d23;
+  --color-hg-copper: #c4845a;
+  --color-hg-accent: #3ecfbf;
+  --color-hg-text: #e8eef2;
+  --color-hg-muted: #8b97a3;
+  --font-sans: var(--font-ibm-plex);
+  --font-display: var(--font-sora);
+}
