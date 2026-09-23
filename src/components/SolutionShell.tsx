@@ -28,8 +28,8 @@ export function SolutionShell({
                 {p}
               </p>
             ))}
-            <Link className="text-link" href="/contact?intent=evaluation">
-              Request Cold Plate Evaluation →
+            <Link className="text-link" href="/contact?intent=caas">
+              Engage Cooling as a Service →
             </Link>
           </div>
         </section>

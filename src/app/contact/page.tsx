@@ -8,7 +8,7 @@ import ContactForm from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Talk to a Hayagreeva thermal engineer or request a cold plate evaluation.",
+    "Talk to a Hayagreeva thermal engineer or engage Cooling as a Service.",
 };
 
 export default function ContactPage() {
@@ -18,7 +18,7 @@ export default function ContactPage() {
         <PageHero
           kicker="Contact"
           title="Talk to a thermal engineer"
-          lead="Request a cold plate evaluation, technical data, OEM partnership discussion or Cooling-as-a-Service conversation."
+          lead="Start a Cooling as a Service conversation, request technical data, or discuss OEM co-engineering."
           image="/assets/stock/hero-servers.jpg"
         />
         <section className="section section-elevated">
@@ -37,10 +37,10 @@ export default function ContactPage() {
                   </p>
                 </article>
                 <article className="card">
-                  <h3>Request Cold Plate Evaluation</h3>
+                  <h3>Engage Cooling as a Service</h3>
                   <p>
-                    Pilot evaluation for qualified operators, OEMs and
-                    integration partners.
+                    Service evaluation for qualified operators, OEMs and
+                    infrastructure partners.
                   </p>
                 </article>
               </div>
@@ -60,8 +60,8 @@ export default function ContactPage() {
               </Suspense>
               <div className="media-frame" style={{ marginTop: "1rem" }}>
                 <Image
-                  src="/assets/stock/product-hardware.jpg"
-                  alt="Accelerator hardware"
+                  src="/assets/stock/hero-datacenter.jpg"
+                  alt="AI data center infrastructure"
                   width={600}
                   height={400}
                 />

@@ -16,15 +16,16 @@ export default function CompanyPage() {
         <PageHero
           kicker="Company"
           title="About Hayagreeva"
-          lead="Mission: remove the thermal barriers limiting the future of AI computing."
+          lead="Mission: remove the thermal barriers limiting the future of AI computing — delivered as an engineering service."
           image="/assets/stock/tech-copper.jpg"
         />
         <section className="section section-elevated">
           <div className="container">
             <p className="section-lead">
-              Hayagreeva Energy is an advanced AI thermal-engineering company
-              focused on next-generation GPU cold plates, rapid co-engineering and
-              Cooling-as-a-Service — not simply another cold-plate manufacturer.
+              Hayagreeva Energy is an AI thermal-engineering service company. We
+              design, validate, deploy and operate direct-to-chip liquid cooling
+              for AI infrastructure — through co-engineering and Cooling as a
+              Service, not as a catalog manufacturer.
             </p>
             <div className="card-grid card-grid--4" style={{ marginTop: "2.5rem" }}>
               {[

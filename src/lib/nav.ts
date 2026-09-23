@@ -16,16 +16,6 @@ export const NAV_LINKS: NavItem[] = [
     ],
   },
   {
-    href: "/products",
-    label: "Products",
-    children: [
-      { href: "/products/ai-gpu-cold-plates", label: "AI GPU Cold Plates" },
-      { href: "/products/cpu-cold-plates", label: "CPU Cold Plates" },
-      { href: "/products/cold-plate-loops", label: "Cold Plate Loops" },
-      { href: "/products/rack-manifolds", label: "Rack Manifolds" },
-    ],
-  },
-  {
     href: "/solutions",
     label: "Solutions",
     children: [
@@ -75,6 +65,6 @@ export const PRIMARY_CTA = {
 } as const;
 
 export const SECONDARY_CTA = {
-  href: "/contact?intent=evaluation",
-  label: "Request Cold Plate Evaluation",
+  href: "/contact?intent=caas",
+  label: "Engage Cooling as a Service",
 } as const;

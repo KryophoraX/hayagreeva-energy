@@ -747,7 +747,7 @@ textarea {
   }
 }
 
-/* ——— Featured product callouts ——— */
+/* ——— Featured service callouts ——— */
 .featured {
   display: grid;
   gap: 2.5rem;
@@ -1384,15 +1384,101 @@ textarea {
   }
 }
 
+/* ——— Scroll reveal ——— */
+.motion-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  filter: blur(4px);
+}
+
+.motion-ready .reveal {
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.motion-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+.motion-ready .hero-content.reveal:not(.is-visible) {
+  transform: translate3d(0, 18px, 0);
+  filter: none;
+}
+
+.motion-ready .hero-content.reveal.is-visible {
+  transition-duration: 0.9s;
+}
+
+.motion-ready .audience-bar.reveal:not(.is-visible) {
+  transform: translate3d(0, 12px, 0);
+  filter: none;
+}
+
+.motion-ready .metric-cell.reveal:not(.is-visible),
+.motion-ready .process-step.reveal:not(.is-visible),
+.motion-ready .card.reveal:not(.is-visible),
+.motion-ready .platform-card.reveal:not(.is-visible),
+.motion-ready .chart-card.reveal:not(.is-visible),
+.motion-ready .evolution-step.reveal:not(.is-visible) {
+  transform: translate3d(0, 20px, 0);
+  filter: none;
+}
+
+.motion-ready .final-cta.reveal:not(.is-visible) {
+  transform: translate3d(0, 24px, 0) scale(0.985);
+  filter: none;
+}
+
+.motion-ready .final-cta.reveal.is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.motion-ready .hero-media img {
+  transform: scale(1.04);
+  transition: transform 8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-ready .hero:has(.hero-content.is-visible) .hero-media img {
+  transform: scale(1);
+}
+
+.motion-ready .page-hero__bg img {
+  transform: scale(1.06);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-ready .page-hero:has(.container.is-visible) .page-hero__bg img {
+  transform: scale(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .motion-ready .reveal,
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .motion-ready .hero-media img,
+  .motion-ready .page-hero__bg img {
+    transform: none !important;
+    transition: none !important;
   }
 
   *,
   *::before,
   *::after {
     animation: none !important;
-    transition: none !important;
   }
 }

@@ -45,8 +45,8 @@ export default function ColdPlateTechPage() {
                 numbers — thermal load, heat flux, resistance, flow and pressure
                 drop — once controlled test programs publish results.
               </p>
-              <Link className="text-link" href="/products/ai-gpu-cold-plates">
-                View AI GPU Cold Plates →
+              <Link className="text-link" href="/cooling-as-a-service">
+                Explore Cooling as a Service →
               </Link>
             </div>
           </div>

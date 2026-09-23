@@ -20,7 +20,8 @@ export function FinalCta() {
     <section className="final-cta">
       <h2>Building the Next Generation of AI Infrastructure?</h2>
       <p>
-        Let&apos;s design the cooling architecture that makes it possible.
+        Engage Hayagreeva to design, deploy and operate the cooling service that
+        makes it possible.
       </p>
       <div className="final-cta__actions">
         <Link className="btn btn-primary" href={PRIMARY_CTA.href}>
@@ -49,7 +50,7 @@ export default function SiteFooter() {
             />
           </Link>
           <p className="footer-tagline">
-            Advanced AI thermal engineering · Direct-to-chip liquid cooling
+            AI thermal engineering as a service · Direct-to-chip liquid cooling
           </p>
         </div>
         <div>
@@ -59,22 +60,19 @@ export default function SiteFooter() {
               <Link href="/technology">Technology</Link>
             </li>
             <li>
-              <Link href="/products">Products</Link>
-            </li>
-            <li>
               <Link href="/solutions">Solutions</Link>
             </li>
             <li>
               <Link href="/engineering">Engineering</Link>
+            </li>
+            <li>
+              <Link href="/cooling-as-a-service">Cooling as a Service</Link>
             </li>
           </ul>
         </div>
         <div>
           <h3 className="footer-heading">Programs</h3>
           <ul className="footer-links">
-            <li>
-              <Link href="/cooling-as-a-service">Cooling as a Service</Link>
-            </li>
             <li>
               <Link href="/resources">Resources</Link>
             </li>
@@ -83,6 +81,9 @@ export default function SiteFooter() {
             </li>
             <li>
               <Link href="/company/careers">Careers</Link>
+            </li>
+            <li>
+              <Link href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</Link>
             </li>
           </ul>
         </div>

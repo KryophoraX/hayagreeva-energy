@@ -4,38 +4,42 @@ import SiteFooter, { FinalCta } from "@/components/SiteFooter";
 import { PRIMARY_CTA } from "@/lib/nav";
 
 const METRICS = [
-  { title: "Next-Gen GPU Ready", note: "Platform-aligned cold plates" },
+  { title: "Next-Gen GPU Ready", note: "Platform-aligned thermal service" },
   { title: "Low Thermal Resistance", note: "Silicon-to-coolant path" },
   { title: "Optimized Pressure Drop", note: "Rack-level pump realism" },
   { title: "High Heat Flux", note: "Hotspot-capable architecture" },
   { title: "Single-Phase DLC", note: "Direct liquid cooling" },
 ];
 
-const PRODUCTS = [
+const SERVICES = [
   {
-    href: "/products/ai-gpu-cold-plates",
-    title: "AI GPU Cold Plates",
-    body: "Precision-engineered direct-to-chip cooling for high-power AI accelerators.",
-    cta: "Explore Cold Plates →",
-    image: "/assets/stock/product-hardware.jpg",
+    href: "/cooling-as-a-service",
+    title: "Cooling as a Service",
+    body: "End-to-end thermal capacity for AI infrastructure — design, deployment, monitoring and lifecycle support without CapEx lock-in.",
+    cta: "Explore CaaS →",
+    image: "/assets/stock/hero-servers.jpg",
   },
   {
-    href: "/products/cold-plate-loops",
-    title: "Custom Cold Plate Loops",
-    body: "GPU, CPU, memory and power-component cooling integrated into optimized server-level loops.",
-    cta: "Explore Cooling Loops →",
-    image: "/assets/stock/hero-cooling-loop.jpg",
+    href: "/engineering",
+    title: "Thermal Co-Engineering",
+    body: "Rapid co-design with OEMs, ODMs and operators around real TDP, heat maps, mounting and coolant constraints.",
+    cta: "Explore Engineering →",
+    image: "/assets/stock/career-engineering.jpg",
   },
   {
-    href: "/technology/advanced-rd",
-    title: "Next-Generation Cooling",
-    body: "Advanced architectures being developed for rapidly increasing AI heat flux and thermal density.",
-    cta: "Explore R&D →",
+    href: "/technology",
+    title: "Direct-to-Chip Architecture",
+    body: "Service-delivered liquid cooling engineered at the silicon interface for next-generation AI accelerators.",
+    cta: "Explore Technology →",
     image: "/assets/stock/tech-copper.jpg",
   },
 ];
 
 const DIFFERENTIATORS = [
+  {
+    title: "Service-First Delivery",
+    body: "Cooling capacity delivered as an operable service — not a catalog of parts to assemble yourself.",
+  },
   {
     title: "Advanced Thermal Architecture",
     body: "Optimized coolant paths engineered for demanding heat-flux profiles.",
@@ -49,16 +53,12 @@ const DIFFERENTIATORS = [
     body: "Performance designed around real rack-level pumping constraints.",
   },
   {
-    title: "Rapid Customization",
-    body: "Cold plates engineered around processor, server and mechanical requirements.",
-  },
-  {
-    title: "Design for Manufacturing",
-    body: "Performance optimized together with scalability, reliability and manufacturability.",
+    title: "Rapid Co-Engineering",
+    body: "Thermal solutions engineered around your processor, server and facility requirements.",
   },
   {
     title: "US + India Engineering Ecosystem",
-    body: "Flexible engineering and production strategy for global AI infrastructure customers.",
+    body: "Flexible engineering and deployment support for global AI infrastructure customers.",
   },
 ];
 
@@ -90,8 +90,8 @@ const PROCESS = [
   },
   {
     num: "06",
-    title: "Production",
-    items: ["DFM", "Quality control", "Qualification", "OEM integration"],
+    title: "Deploy & Operate",
+    items: ["Integration", "Monitoring", "Lifecycle support", "Scale-out"],
   },
 ];
 
@@ -103,16 +103,16 @@ const CHARTS = [
 ];
 
 const SOLUTIONS = [
-  { href: "/solutions/hyperscale", title: "Hyperscalers", body: "Ultra-high-density AI infrastructure." },
+  { href: "/solutions/hyperscale", title: "Hyperscalers", body: "Thermal services for ultra-high-density AI infrastructure." },
   { href: "/solutions/neo-cloud", title: "Neo-Cloud Providers", body: "Rapid GPU deployment without thermal bottlenecks." },
-  { href: "/solutions/server-oem", title: "Server OEM / ODM", body: "Custom cold plates and loops integrated into server architecture." },
-  { href: "/solutions/ai-data-centers", title: "AI Data Centers", body: "High-density direct liquid cooling." },
-  { href: "/solutions/hpc", title: "HPC", body: "High-performance scientific and technical computing." },
-  { href: "/solutions/semiconductor", title: "Semiconductor Companies", body: "Advanced thermal co-design for next-generation silicon." },
+  { href: "/solutions/server-oem", title: "Server OEM / ODM", body: "Co-engineered cooling integrated into server architecture." },
+  { href: "/solutions/ai-data-centers", title: "AI Data Centers", body: "High-density direct liquid cooling as a managed service." },
+  { href: "/solutions/hpc", title: "HPC", body: "Sustained cooling for scientific and technical computing." },
+  { href: "/solutions/semiconductor", title: "Semiconductor Companies", body: "Thermal co-design services for next-generation silicon." },
 ];
 
 const RESOURCES = [
-  { href: "/resources#papers", title: "Technical Papers", body: "Thermal-performance reports, cold-plate design papers, TTV validation results." },
+  { href: "/resources#papers", title: "Technical Papers", body: "Thermal-performance reports, architecture papers, TTV validation results." },
   { href: "/resources#notes", title: "Application Notes", body: "GB200, GB300, B300 and platform-specific cooling guidance." },
   { href: "/resources#cases", title: "Case Studies", body: "OEM collaboration, neo-cloud and AI data-center deployments." },
   { href: "/resources#insights", title: "Insights", body: "AI thermal roadmap, DLC vs immersion, rack density and CDUs." },
@@ -122,7 +122,6 @@ export default function HomePage() {
   return (
     <>
       <main className="page-main">
-        {/* 1. Hero */}
         <section className="hero">
           <div className="hero-media" aria-hidden="true">
             <Image
@@ -138,16 +137,17 @@ export default function HomePage() {
             <span className="hero-brand">Hayagreeva Energy</span>
             <h1 className="hero-title">Cooling the Next Generation of AI</h1>
             <p className="hero-lead">
-              Advanced direct-to-chip liquid cooling engineered for the extreme
-              thermal demands of AI, HPC and accelerated computing.
+              AI thermal engineering as a service — direct-to-chip liquid cooling
+              designed, deployed and operated for the extreme demands of AI, HPC
+              and accelerated computing.
             </p>
             <p className="hero-support">
-              High-performance cold plates engineered for NVIDIA, AMD and
-              next-generation accelerator platforms.
+              Platform-aligned cooling for NVIDIA, AMD and next-generation
+              accelerator environments — delivered as an engineering service.
             </p>
             <div className="hero-actions">
-              <Link className="btn btn-primary" href="/technology">
-                Explore Our Technology
+              <Link className="btn btn-primary" href="/cooling-as-a-service">
+                Explore Our Service
               </Link>
               <Link className="btn btn-secondary" href={PRIMARY_CTA.href}>
                 {PRIMARY_CTA.label}
@@ -165,7 +165,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Performance bar */}
         <section className="section section-elevated section-accent-edge">
           <div className="container">
             <p className="kicker">Performance focus</p>
@@ -187,7 +186,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 2. Built for AI */}
         <section className="section section-dark">
           <div className="container split">
             <div>
@@ -196,11 +194,10 @@ export default function HomePage() {
                 AI Compute Is Getting Hotter. Cooling Has to Evolve Faster.
               </h2>
               <p className="section-lead">
-                GPU power density is increasing at unprecedented rates.
-                Hayagreeva develops high-performance liquid-cooling architectures
-                designed to remove heat directly at the silicon interface while
-                reducing thermal resistance, pressure drop and cooling-energy
-                requirements.
+                GPU power density is increasing at unprecedented rates. Hayagreeva
+                delivers high-performance liquid-cooling architectures as a
+                service — removing heat at the silicon interface while managing
+                thermal resistance, pressure drop and cooling-energy requirements.
               </p>
               <Link className="text-link" href="/technology">
                 See Our Technology →
@@ -231,37 +228,32 @@ export default function HomePage() {
               <div className="evolution-step">
                 <span className="evolution-step__index">04</span>
                 <div>
-                  <strong>Hayagreeva next-gen cold plate</strong>
-                  <span>Silicon-interface thermal architecture</span>
+                  <strong>Hayagreeva cooling service</strong>
+                  <span>Engineered, validated and operated</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. Product portfolio */}
         <section className="section section-graphite">
           <div className="container">
-            <p className="kicker">Product portfolio</p>
-            <h2 className="section-title">Engineered cooling building blocks</h2>
+            <p className="kicker">Our services</p>
+            <h2 className="section-title">How we deliver AI cooling</h2>
             <p className="section-lead">
-              From package-level cold plates to integrated loops — with a roadmap
-              toward manifolds, CDUs and deeper silicon cooling.
+              Hayagreeva is a thermal-engineering service company — from
+              architecture and co-design through validation, deployment and
+              ongoing Cooling as a Service.
             </p>
             <div className="card-grid card-grid--3">
-              {PRODUCTS.map((p) => (
-                <article className="card card--media" key={p.href}>
-                  <Image
-                    src={p.image}
-                    alt=""
-                    width={640}
-                    height={400}
-                  />
+              {SERVICES.map((s) => (
+                <article className="card card--media" key={s.href}>
+                  <Image src={s.image} alt="" width={640} height={400} />
                   <div className="card__body">
-                    <h3>{p.title}</h3>
-                    <p>{p.body}</p>
-                    <Link className="text-link" href={p.href}>
-                      {p.cta}
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                    <Link className="text-link" href={s.href}>
+                      {s.cta}
                     </Link>
                   </div>
                 </article>
@@ -270,7 +262,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. Featured product */}
         <section className="section section-elevated">
           <div className="container featured">
             <div className="media-frame">
@@ -282,21 +273,20 @@ export default function HomePage() {
               />
             </div>
             <div>
-              <p className="kicker">Featured product</p>
+              <p className="kicker">Service capability</p>
               <h2 className="section-title">Engineered Where Every Degree Matters</h2>
               <p className="section-lead">
-                Our cold plates are designed through coupled thermal, fluid and
-                mechanical optimization to address the demanding operating
-                conditions of next-generation AI accelerators.
+                Our cooling service is built on coupled thermal, fluid and
+                mechanical optimization — so next-generation AI accelerators stay
+                within operating limits under real rack and facility constraints.
               </p>
               <ul className="callout-list">
-                <li>Microchannel architecture</li>
-                <li>Flow distribution</li>
-                <li>Hotspot targeting</li>
-                <li>Copper thermal interface</li>
-                <li>Precision manufacturing</li>
-                <li>Inlet / outlet architecture</li>
-                <li>Mounting mechanism</li>
+                <li>Requirements capture &amp; heat-map analysis</li>
+                <li>Direct-to-chip architecture design</li>
+                <li>Hotspot targeting &amp; flow distribution</li>
+                <li>CFD and thermal validation</li>
+                <li>Prototype through qualification</li>
+                <li>Deployment, monitoring &amp; lifecycle support</li>
               </ul>
               <div className="metric-row">
                 <div>Low Thermal Resistance</div>
@@ -304,14 +294,13 @@ export default function HomePage() {
                 <div>Uniform Temperature</div>
                 <div>High Heat-Flux Capability</div>
               </div>
-              <Link className="text-link" href="/technology/cold-plate">
-                View Cold Plate Technology →
+              <Link className="text-link" href="/cooling-as-a-service">
+                View Cooling as a Service →
               </Link>
             </div>
           </div>
         </section>
 
-        {/* 5. Platform support */}
         <section className="section section-dark">
           <div className="container">
             <p className="kicker">Platform support</p>
@@ -357,11 +346,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 6. Why Hayagreeva */}
         <section className="section section-graphite">
           <div className="container">
             <p className="kicker">Why Hayagreeva</p>
-            <h2 className="section-title">Engineering differentiators</h2>
+            <h2 className="section-title">Service differentiators</h2>
             <div className="card-grid card-grid--3">
               {DIFFERENTIATORS.map((d) => (
                 <article className="card" key={d.title}>
@@ -373,16 +361,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7. Engineering process */}
         <section className="section section-elevated" id="engineering-process">
           <div className="container">
-            <p className="kicker">Engineering process</p>
+            <p className="kicker">How we engage</p>
             <h2 className="section-title section-title--wide">
-              From Silicon Requirements to Production-Ready Cooling
+              From Silicon Requirements to Operated Cooling
             </h2>
             <p className="section-lead">
-              Engineering, prototyping, validation and manufacturing are first-class
-              capabilities — not back-office functions.
+              Engineering, validation and operations are the service — not
+              afterthoughts attached to a parts sale.
             </p>
             <div className="process">
               {PROCESS.map((step) => (
@@ -403,7 +390,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 8. Performance & validation */}
         <section className="section section-dark">
           <div className="container">
             <p className="kicker">Performance &amp; validation</p>
@@ -430,16 +416,15 @@ export default function HomePage() {
               program completion.
             </p>
             <Link className="text-link" href="/technology/testing-validation">
-              Download Technical Data →
+              Request Technical Data →
             </Link>
           </div>
         </section>
 
-        {/* 9. Solutions */}
         <section className="section section-graphite">
           <div className="container">
             <p className="kicker">Solutions</p>
-            <h2 className="section-title">Built around your role in AI</h2>
+            <h2 className="section-title">Services built around your role in AI</h2>
             <div className="card-grid card-grid--3">
               {SOLUTIONS.map((s) => (
                 <article className="card" key={s.href}>
@@ -454,7 +439,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 10. CaaS */}
         <section className="section section-elevated">
           <div className="container split">
             <div>
@@ -482,7 +466,9 @@ export default function HomePage() {
               <div className="caas-flow" aria-label="CaaS flow">
                 <span className="caas-node">Customer AI Compute</span>
                 <span className="caas-arrow">↓</span>
-                <span className="caas-node caas-node--accent">Hayagreeva Cold Plates</span>
+                <span className="caas-node caas-node--accent">
+                  Hayagreeva Service
+                </span>
                 <span className="caas-arrow">↓</span>
                 <span className="caas-node">Manifold / CDU</span>
                 <span className="caas-arrow">↓</span>
@@ -502,7 +488,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 11. Co-development */}
         <section className="section section-dark">
           <div className="container">
             <p className="kicker">Co-development</p>
@@ -510,16 +495,16 @@ export default function HomePage() {
               Let&apos;s Engineer Your Next AI Platform Together
             </h2>
             <p className="section-lead">
-              Hayagreeva works with processor developers, server OEMs, ODMs, AI
-              infrastructure providers and data-center operators to engineer
-              thermal solutions around real platform requirements.
+              Hayagreeva partners with processor developers, server OEMs, ODMs, AI
+              infrastructure providers and data-center operators to deliver thermal
+              services around real platform requirements.
             </p>
             <div className="codev">
               <div className="codev-partners">
                 <span>Silicon Company</span>
                 <span>Server OEM</span>
                 <span>Hayagreeva</span>
-                <span>Optimized Thermal Solution</span>
+                <span>Operated Thermal Service</span>
               </div>
               <div>
                 <div className="pipeline" aria-label="Engagement pipeline">
@@ -531,7 +516,7 @@ export default function HomePage() {
                     "Prototype",
                     "TTV Validation",
                     "Qualification",
-                    "Production",
+                    "Operate",
                   ].map((step) => (
                     <span key={step}>{step}</span>
                   ))}
@@ -544,7 +529,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 12. NVIDIA Inception */}
         <section className="section section-elevated">
           <div className="container">
             <div className="inception">
@@ -558,11 +542,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 13. Resources */}
         <section className="section section-graphite">
           <div className="container">
             <p className="kicker">Resources</p>
-            <h2 className="section-title">Technical depth for buyers and partners</h2>
+            <h2 className="section-title">Technical depth for operators and partners</h2>
             <div className="card-grid card-grid--4">
               {RESOURCES.map((r) => (
                 <article className="card" key={r.href}>

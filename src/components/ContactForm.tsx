@@ -12,8 +12,8 @@ const FORM_ENDPOINT =
 
 const INTEREST_LABELS: Record<string, string> = {
   engineer: "Talk to a Thermal Engineer",
-  evaluation: "Request Cold Plate Evaluation",
-  pilot: "Pilot evaluation — AI GPU cold plate",
+  evaluation: "Request Service Evaluation",
+  pilot: "Pilot engagement — Cooling as a Service",
   technical: "Technical information / fact sheet",
   oem: "OEM / co-development partnership",
   caas: "Cooling as a Service",
@@ -276,8 +276,8 @@ export default function ContactForm() {
           key={defaultInterest}
         >
           <option value="engineer">Talk to a Thermal Engineer</option>
-          <option value="evaluation">Request Cold Plate Evaluation</option>
-          <option value="pilot">Pilot evaluation — AI GPU cold plate</option>
+          <option value="evaluation">Request Service Evaluation</option>
+          <option value="pilot">Pilot engagement — Cooling as a Service</option>
           <option value="technical">Technical information / fact sheet</option>
           <option value="oem">OEM / co-development partnership</option>
           <option value="caas">Cooling as a Service</option>

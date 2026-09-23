@@ -1,6 +1,6 @@
 # Hayagreeva Energy
 
-Next.js site for Hayagreeva Energy — advanced AI thermal engineering.
+Next.js site for Hayagreeva Energy — AI thermal engineering as a service.
 
 ## Stack
 
@@ -21,12 +21,11 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000) (or the port shown in the te
 
 | Path | Purpose |
 |------|---------|
-| `/` | Homepage (full wireframe sequence) |
-| `/technology` | Technology hub + nested pages |
-| `/products` | Product portfolio |
+| `/` | Homepage (service-led wireframe) |
+| `/technology` | Technology hub |
 | `/solutions` | Customer-segment solutions |
 | `/engineering` | Engineering process |
-| `/cooling-as-a-service` | CaaS |
+| `/cooling-as-a-service` | CaaS (primary offering) |
 | `/resources` | Papers, notes, cases, insights |
 | `/company` | About, leadership, partners, careers |
-| `/contact` | Thermal engineer / evaluation CTAs |
+| `/contact` | Thermal engineer / service CTAs |

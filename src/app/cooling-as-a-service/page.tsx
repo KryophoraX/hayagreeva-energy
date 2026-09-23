@@ -28,7 +28,7 @@ export default function CaasPage() {
                 <span className="caas-node">Customer AI Compute</span>
                 <span className="caas-arrow">↓</span>
                 <span className="caas-node caas-node--accent">
-                  Hayagreeva Cold Plates
+                  Hayagreeva Service
                 </span>
                 <span className="caas-arrow">↓</span>
                 <span className="caas-node">Manifold / CDU</span>

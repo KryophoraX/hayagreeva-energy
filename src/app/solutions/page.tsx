@@ -24,7 +24,7 @@ export default function SolutionsPage() {
       <main className="page-main">
         <PageHero
           kicker="Solutions"
-          title="Customer pathways, not product catalogs"
+          title="Customer pathways for thermal services"
           lead="Separate engagement paths for hyperscalers, neo-cloud providers, OEMs, data centers, HPC and semiconductor partners."
           image="/assets/stock/app-hpc.jpg"
         />

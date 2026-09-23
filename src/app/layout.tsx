@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, Sora } from "next/font/google";
+import ScrollAnimations from "@/components/ScrollAnimations";
 import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
 import "@/styles/site.scss";
@@ -21,11 +22,11 @@ const ibmPlex = IBM_Plex_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hayagreevaenergy.com"),
   title: {
-    default: "Hayagreeva Energy — Advanced AI Thermal Engineering",
+    default: "Hayagreeva Energy — AI Thermal Engineering as a Service",
     template: "%s — Hayagreeva Energy",
   },
   description:
-    "Advanced direct-to-chip liquid cooling engineered for the extreme thermal demands of AI, HPC and accelerated computing.",
+    "Hayagreeva delivers direct-to-chip liquid cooling as a service for AI, HPC and accelerated computing — design, validation, deployment and operations.",
   icons: {
     icon: "/assets/logo.png",
   },
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <SiteHeader />
         {children}
+        <ScrollAnimations />
       </body>
     </html>
   );
