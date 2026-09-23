@@ -316,11 +316,12 @@ textarea {
   }
 
   .nav-link {
-    padding: 0.5rem 0.7rem;
+    padding: 0.5rem 0.55rem;
     border: none;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .nav-item:hover .nav-dropdown,
@@ -987,13 +988,16 @@ textarea {
 /* ——— CaaS diagram ——— */
 .caas-flow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
   margin: 2rem 0;
+  max-width: 22rem;
 }
 
 .caas-node {
+  display: block;
+  width: 100%;
   padding: 0.85rem 1.1rem;
   border: 1px solid var(--hg-border-strong);
   background: var(--hg-bg);
@@ -1002,6 +1006,7 @@ textarea {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .caas-node--accent {
@@ -1011,8 +1016,11 @@ textarea {
 }
 
 .caas-arrow {
+  display: block;
   color: var(--hg-faint);
   font-size: 0.875rem;
+  line-height: 1;
+  text-align: center;
 }
 
 .checklist {

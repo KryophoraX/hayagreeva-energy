@@ -41,6 +41,11 @@ export default function SiteHeader() {
                   href={item.href}
                   className={`nav-link${active ? " is-active" : ""}`}
                   aria-current={active ? "page" : undefined}
+                  title={
+                    item.href === "/cooling-as-a-service"
+                      ? "Cooling as a Service"
+                      : undefined
+                  }
                 >
                   {item.label}
                 </Link>

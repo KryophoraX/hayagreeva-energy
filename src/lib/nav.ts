@@ -40,7 +40,7 @@ export const NAV_LINKS: NavItem[] = [
   },
   {
     href: "/cooling-as-a-service",
-    label: "Cooling as a Service",
+    label: "CaaS",
   },
   {
     href: "/resources",
