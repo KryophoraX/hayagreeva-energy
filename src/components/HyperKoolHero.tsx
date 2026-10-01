@@ -18,31 +18,33 @@ export default function HyperKoolHero() {
       </div>
 
       <div className="hk-container hk-hero__content">
-        <p className="hk-hero__eyebrow">
-          <span className="hk-hero__eyebrow-line" aria-hidden />
-          Liquid cooling for a higher world
-        </p>
+        <div className="hk-hero__copy">
+          <p className="hk-hero__eyebrow">
+            Liquid cooling for a higher world
+            <span className="hk-hero__eyebrow-line" aria-hidden />
+          </p>
 
-        <h1 className="hk-hero__heading">
-          Custom Cold Plate Design &amp; GPU Cooling as a Service
-        </h1>
+          <h1 className="hk-hero__heading">
+            Custom Cold Plate Design &amp; GPU Cooling as a Service
+          </h1>
 
-        <p className="hk-hero__body">
-          Submit your form factor, and HyperKool will design and deliver a
-          high-performance cold plate. Get end-to-end GPU cooling support from
-          design to deployment.
-        </p>
+          <p className="hk-hero__body">
+            Submit your form factor, and HyperKool will design and deliver a
+            high-performance cold plate. Get end-to-end GPU cooling support from
+            design to deployment.
+          </p>
 
-        <div className="hk-hero__ctas">
-          <Link
-            className="hk-btn hk-btn--primary"
-            href="/contact?intent=form-factor"
-          >
-            Submit Your Form Factor →
-          </Link>
-          <Link className="hk-btn hk-btn--ghost" href="/cooling-as-a-service">
-            Explore GPU Cooling as a Service →
-          </Link>
+          <div className="hk-hero__ctas">
+            <Link
+              className="hk-btn hk-btn--primary"
+              href="/contact?intent=form-factor"
+            >
+              Submit Your Form Factor →
+            </Link>
+            <Link className="hk-btn hk-btn--ghost" href="/cooling-as-a-service">
+              Explore GPU Cooling as a Service →
+            </Link>
+          </div>
         </div>
       </div>
     </section>
