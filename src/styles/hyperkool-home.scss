@@ -16,7 +16,7 @@ body:has(.hk-home) {
   --hk-surface: #f6f9fc;
   --hk-radius: 1rem;
   --hk-radius-pill: 999px;
-  --hk-container: 1160px;
+  --hk-container: 1740px;
   --hk-gutter: clamp(1.25rem, 4vw, 2rem);
 
   min-height: 100svh;
@@ -152,9 +152,32 @@ body:has(.hk-home) {
 }
 
 @media (min-width: 1040px) {
+  .hk-header__inner {
+    height: 5.5rem;
+  }
+
+  .hk-logo img {
+    height: 70px;
+    max-width: 320px;
+  }
+
   .hk-nav,
   .hk-header__cta {
     display: flex;
+  }
+
+  .hk-nav a {
+    font-size: 1rem;
+    padding: 0.65rem 0.9rem;
+  }
+
+  .hk-header__cta {
+    margin-left: 1.25rem;
+  }
+
+  .hk-header__cta.hk-btn {
+    padding: 0.95rem 1.6rem;
+    font-size: 0.95rem;
   }
 
   .hk-nav-toggle {
@@ -243,22 +266,21 @@ body:has(.hk-home) {
   background: linear-gradient(
     100deg,
     #ffffff 0%,
-    #ffffff 25%,
-    rgba(255, 255, 255, 0.94) 36%,
-    rgba(255, 255, 255, 0.48) 52%,
-    transparent 68%
+    rgba(255, 255, 255, 0.98) 24%,
+    rgba(255, 255, 255, 0.82) 34%,
+    rgba(255, 255, 255, 0.28) 46%,
+    transparent 58%
   );
 }
 
 .hk-hero__content {
   position: relative;
   z-index: 2;
-  width: 100%;
   padding: 1.75rem 0;
 }
 
 .hk-hero__copy {
-  width: min(100%, 31rem);
+  width: min(100%, 34rem);
 }
 
 .hk-hero__eyebrow {
@@ -284,7 +306,7 @@ body:has(.hk-home) {
 
 .hk-hero__heading {
   margin: 0 0 0.7rem;
-  max-width: 19ch;
+  max-width: 20ch;
   font-family: var(--font-sora), sans-serif;
   font-size: clamp(1.85rem, 3.25vw, 2.35rem);
   font-weight: 700;
@@ -295,7 +317,7 @@ body:has(.hk-home) {
 
 .hk-hero__body {
   margin: 0 0 1rem;
-  max-width: 31rem;
+  max-width: 33rem;
   font-size: 0.925rem;
   line-height: 1.55;
   color: var(--hk-muted);
@@ -311,6 +333,48 @@ body:has(.hk-home) {
 .hk-hero__ctas .hk-btn {
   font-size: 0.75rem;
   padding: 0.72rem 1.05rem;
+}
+
+@media (min-width: 1040px) {
+  .hk-hero {
+    min-height: clamp(430px, 24vw, 480px);
+  }
+
+  .hk-hero__content {
+    padding: 3rem 0;
+  }
+
+  .hk-hero__copy {
+    width: min(100%, 52rem);
+  }
+
+  .hk-hero__eyebrow {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .hk-hero__heading {
+    max-width: 25ch;
+    margin-bottom: 1rem;
+    font-size: clamp(2.75rem, 2.8vw, 3.35rem);
+    line-height: 1.08;
+  }
+
+  .hk-hero__body {
+    max-width: 40rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+
+  .hk-hero__ctas {
+    gap: 1rem;
+  }
+
+  .hk-hero__ctas .hk-btn {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 860px) {
@@ -365,6 +429,45 @@ body:has(.hk-home) {
   .hk-services__grid {
     grid-template-columns: 1fr 1fr;
     gap: 1.35rem;
+  }
+}
+
+@media (min-width: 1040px) {
+  .hk-services {
+    padding: 1.5rem 0 1.75rem;
+  }
+
+  .hk-service {
+    padding: 1.5rem;
+  }
+
+  .hk-service__icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 0.75rem;
+  }
+
+  .hk-service__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .hk-service__title {
+    margin-bottom: 0.65rem;
+    font-size: 1.4rem;
+  }
+
+  .hk-service__body {
+    margin-bottom: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .hk-check {
+    gap: 0.5rem;
+  }
+
+  .hk-check li {
+    font-size: 0.95rem;
   }
 }
 
@@ -457,7 +560,7 @@ body:has(.hk-home) {
   border-radius: 0.7rem;
   overflow: hidden;
   background: var(--hk-surface);
-  min-height: 145px;
+  min-height: 170px;
   aspect-ratio: 4 / 3;
 }
 
