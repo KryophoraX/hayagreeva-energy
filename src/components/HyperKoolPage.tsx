@@ -148,16 +148,16 @@ export default function HyperKoolPage() {
       <main>
         <section className="hk-hero" aria-label="HyperKool hero">
           <div className="hk-hero__atmosphere" aria-hidden>
-            <div className="hk-hero__flow" />
             <Image
-              className="hk-hero__rack"
-              src="/assets/hyperkool/service-gpu-caas.jpg"
+              className="hk-hero__atmosphere-img"
+              src="/assets/hyperkool/hero-atmosphere.jpg"
               alt=""
               fill
               unoptimized
-              sizes="70vw"
+              sizes="100vw"
               priority
             />
+            <div className="hk-hero__veil" />
           </div>
 
           <div className="hk-container hk-hero__layout">
