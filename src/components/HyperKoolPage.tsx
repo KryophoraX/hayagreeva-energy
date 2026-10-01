@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import HyperKoolHero from "@/components/HyperKoolHero";
 import "@/styles/hyperkool-home.scss";
 
 const NAV = [
@@ -145,56 +146,7 @@ export default function HyperKoolPage() {
       </header>
 
       <main>
-        <section className="hk-hero" aria-label="HyperKool hero">
-          <div className="hk-hero__atmosphere" aria-hidden>
-            <Image
-              className="hk-hero__atmosphere-img"
-              src="/assets/hyperkool/hero-atmosphere.jpg"
-              alt=""
-              fill
-              unoptimized
-              sizes="100vw"
-              priority
-            />
-            <div className="hk-hero__veil" />
-          </div>
-
-          <div className="hk-container hk-hero__layout">
-            <div className="hk-hero__copy">
-              <p className="hk-kicker">Liquid cooling for a higher world</p>
-              <h1 className="hk-hero__title">
-                Custom Cold Plate Design &amp; GPU Cooling as a Service
-              </h1>
-              <p className="hk-hero__lead">
-                Submit your form factor, and HyperKool will design and deliver a
-                high-performance cold plate. Get end-to-end GPU cooling support
-                from design to deployment.
-              </p>
-              <div className="hk-hero__actions">
-                <Link
-                  className="hk-btn hk-btn--primary"
-                  href="/contact?intent=form-factor"
-                >
-                  Submit Your Form Factor →
-                </Link>
-                <Link className="hk-btn hk-btn--ghost" href="/cooling-as-a-service">
-                  Explore GPU Cooling as a Service →
-                </Link>
-              </div>
-            </div>
-
-            <div className="hk-hero__product">
-              <Image
-                src="/assets/hyperkool/hero-cold-plate.jpg"
-                alt="Hayagreeva HyperKool 5 cold plate with liquid cooling lines"
-                width={1280}
-                height={720}
-                priority
-                unoptimized
-              />
-            </div>
-          </div>
-        </section>
+        <HyperKoolHero />
 
         <section className="hk-services" id="custom-design">
           <div className="hk-container hk-services__grid">
