@@ -6,8 +6,7 @@ import { useState } from "react";
 import "@/styles/hyperkool-home.scss";
 
 const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/hyperkool", label: "HyperKool", active: true },
+  { href: "/hyperkool", label: "Home", active: true },
   { href: "/hyperkool#custom-design", label: "Custom Design" },
   { href: "/cooling-as-a-service", label: "GPU Cooling as a Service" },
   { href: "/technology", label: "Technology" },
@@ -200,7 +199,7 @@ export default function HyperKoolPage() {
         <section className="hk-services" id="custom-design">
           <div className="hk-container hk-services__grid">
             <article className="hk-service">
-              <div>
+              <div className="hk-service__content">
                 <div className="hk-service__icon" aria-hidden>
                   <IconCube />
                 </div>
@@ -236,7 +235,7 @@ export default function HyperKoolPage() {
             </article>
 
             <article className="hk-service">
-              <div>
+              <div className="hk-service__content">
                 <div className="hk-service__icon" aria-hidden>
                   <IconCloud />
                 </div>
