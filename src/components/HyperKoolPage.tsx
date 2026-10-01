@@ -181,6 +181,7 @@ export default function HyperKoolPage() {
                   alt="HyperKool cold plate with engineering dimension overlays"
                   width={1152}
                   height={864}
+                  loading="eager"
                   unoptimized
                 />
               </div>
@@ -218,6 +219,7 @@ export default function HyperKoolPage() {
                   alt="Liquid-cooled GPU server racks with blue coolant lines"
                   width={1152}
                   height={864}
+                  loading="eager"
                   unoptimized
                 />
               </div>

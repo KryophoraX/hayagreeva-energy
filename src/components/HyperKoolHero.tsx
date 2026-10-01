@@ -1,19 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function HyperKoolHero() {
   return (
     <section className="hk-hero" aria-label="HyperKool hero">
       <div className="hk-hero__media" aria-hidden>
-        <Image
-          src="/assets/hyperkool/hero-fullbleed.jpg"
-          alt=""
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="hk-hero__media-img"
-        />
         <div className="hk-hero__scrim" />
       </div>
 
@@ -25,7 +15,8 @@ export default function HyperKoolHero() {
           </p>
 
           <h1 className="hk-hero__heading">
-            Custom Cold Plate Design &amp; GPU Cooling as a Service
+            Custom Cold Plate Design &amp;
+            <br className="hk-hero__heading-break" /> GPU Cooling as a Service
           </h1>
 
           <p className="hk-hero__body">
