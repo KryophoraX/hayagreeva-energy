@@ -43,6 +43,10 @@ export const NAV_LINKS: NavItem[] = [
     label: "CaaS",
   },
   {
+    href: "/hyperkool",
+    label: "HyperKool",
+  },
+  {
     href: "/resources",
     label: "Resources",
   },

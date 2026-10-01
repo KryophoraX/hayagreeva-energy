@@ -22,18 +22,18 @@ const ibmPlex = IBM_Plex_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hayagreevaenergy.com"),
   title: {
-    default: "Hayagreeva HyperKool — Advanced Liquid Cooling",
-    template: "%s — Hayagreeva HyperKool",
+    default: "Hayagreeva Energy — AI Thermal Engineering as a Service",
+    template: "%s — Hayagreeva Energy",
   },
   description:
-    "Custom cold plate design and GPU Cooling as a Service from Hayagreeva HyperKool — advanced liquid cooling for AI and high-performance compute.",
+    "Hayagreeva delivers direct-to-chip liquid cooling as a service for AI, HPC and accelerated computing — design, validation, deployment and operations.",
   icons: {
-    icon: "/assets/hyperkool/logo.png",
+    icon: "/assets/logo.png",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a2540",
+  themeColor: "#0b0d0f",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

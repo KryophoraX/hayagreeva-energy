@@ -68,6 +68,9 @@ export default function SiteFooter() {
             <li>
               <Link href="/cooling-as-a-service">Cooling as a Service</Link>
             </li>
+            <li>
+              <Link href="/hyperkool">HyperKool</Link>
+            </li>
           </ul>
         </div>
         <div>

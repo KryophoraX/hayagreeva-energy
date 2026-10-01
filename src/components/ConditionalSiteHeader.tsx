@@ -5,6 +5,8 @@ import SiteHeader from "@/components/SiteHeader";
 
 export default function ConditionalSiteHeader() {
   const pathname = usePathname();
-  if (pathname === "/") return null;
+  if (pathname === "/hyperkool" || pathname.startsWith("/hyperkool/")) {
+    return null;
+  }
   return <SiteHeader />;
 }

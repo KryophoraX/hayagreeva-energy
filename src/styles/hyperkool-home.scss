@@ -213,28 +213,104 @@ body:has(.hk-home) {
   font-size: 0.8125rem;
 }
 
-/* ——— Hero ——— */
+/* ——— Hero (full-bleed merged imagery) ——— */
 .hk-hero {
   position: relative;
   overflow: hidden;
-  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem);
-  background:
-    radial-gradient(ellipse 60% 70% at 85% 40%, rgba(0, 163, 224, 0.12), transparent 65%),
-    radial-gradient(ellipse 40% 50% at 95% 80%, rgba(10, 37, 64, 0.06), transparent 60%),
-    linear-gradient(180deg, #fff 0%, #f4f9fc 100%);
-}
-
-.hk-hero__grid {
-  display: grid;
-  gap: 2.5rem;
+  min-height: min(92svh, 760px);
+  display: flex;
   align-items: center;
+  background: #f4f9fc;
 }
 
-@media (min-width: 960px) {
-  .hk-hero__grid {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: 3rem;
-  }
+.hk-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hk-hero__bg {
+  object-fit: cover !important;
+  object-position: right center;
+}
+
+.hk-hero__bg--primary {
+  z-index: 1;
+  object-position: 72% center;
+}
+
+.hk-hero__bg--merge {
+  z-index: 2;
+  object-position: 85% 40%;
+  opacity: 0.55;
+  mix-blend-mode: soft-light;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(0, 0, 0, 0.35) 55%,
+    #000 78%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(0, 0, 0, 0.35) 55%,
+    #000 78%
+  );
+}
+
+.hk-hero__bg--detail {
+  z-index: 3;
+  object-position: 95% 70%;
+  opacity: 0.42;
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: radial-gradient(
+    ellipse 55% 70% at 88% 65%,
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 55% 70% at 88% 65%,
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 75%
+  );
+}
+
+.hk-hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      105deg,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0.97) 28%,
+      rgba(255, 255, 255, 0.78) 44%,
+      rgba(244, 249, 252, 0.35) 62%,
+      rgba(255, 255, 255, 0.05) 78%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 70% 80% at 88% 42%,
+      rgba(0, 163, 224, 0.22),
+      transparent 58%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 28%);
+}
+
+.hk-hero__content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+}
+
+.hk-hero__copy {
+  max-width: 34rem;
 }
 
 .hk-kicker {
@@ -285,40 +361,34 @@ body:has(.hk-home) {
   gap: 0.75rem;
 }
 
-.hk-hero__visual {
-  position: relative;
-  justify-self: center;
-  width: 100%;
-  max-width: 560px;
-}
+@media (max-width: 860px) {
+  .hk-hero {
+    min-height: auto;
+  }
 
-.hk-hero__glow {
-  position: absolute;
-  inset: 8% -10% -8% 10%;
-  background:
-    radial-gradient(ellipse at 70% 45%, rgba(0, 163, 224, 0.28), transparent 58%),
-    radial-gradient(ellipse at 45% 85%, rgba(0, 163, 224, 0.14), transparent 50%);
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 0;
-}
+  .hk-hero__veil {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.9) 42%,
+        rgba(255, 255, 255, 0.55) 68%,
+        rgba(255, 255, 255, 0.2) 100%
+      ),
+      radial-gradient(
+        ellipse 90% 60% at 70% 80%,
+        rgba(0, 163, 224, 0.2),
+        transparent 60%
+      );
+  }
 
-.hk-hero__image {
-  position: relative;
-  z-index: 1;
-  border-radius: 1rem;
-  overflow: hidden;
-  background: #eef6fb;
-  box-shadow: 0 24px 48px rgba(10, 37, 64, 0.12);
-  aspect-ratio: 16 / 9;
-}
+  .hk-hero__bg--primary {
+    object-position: 60% center;
+  }
 
-.hk-hero__image img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
+  .hk-hero__content {
+    padding: 3rem 0 12rem;
+  }
 }
 
 /* ——— Services ——— */
@@ -501,8 +571,8 @@ body:has(.hk-home) {
     animation: hk-rise 0.7s ease both;
   }
 
-  .hk-hero__visual {
-    animation: hk-rise 0.85s 0.12s ease both;
+  .hk-hero__media {
+    animation: hk-fade 1s ease both;
   }
 
   .hk-service {
@@ -538,5 +608,14 @@ body:has(.hk-home) {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hk-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
