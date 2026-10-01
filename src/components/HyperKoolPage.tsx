@@ -147,36 +147,20 @@ export default function HyperKoolPage() {
 
       <main>
         <section className="hk-hero" aria-label="HyperKool hero">
-          <div className="hk-hero__media" aria-hidden>
+          <div className="hk-hero__atmosphere" aria-hidden>
+            <div className="hk-hero__flow" />
             <Image
-              className="hk-hero__bg hk-hero__bg--primary"
-              src="/assets/hyperkool/hero-cold-plate.jpg"
-              alt=""
-              fill
-              priority
-              unoptimized
-              sizes="100vw"
-            />
-            <Image
-              className="hk-hero__bg hk-hero__bg--merge"
+              className="hk-hero__rack"
               src="/assets/hyperkool/service-gpu-caas.jpg"
               alt=""
               fill
               unoptimized
-              sizes="100vw"
+              sizes="70vw"
+              priority
             />
-            <Image
-              className="hk-hero__bg hk-hero__bg--detail"
-              src="/assets/hyperkool/service-custom-design.jpg"
-              alt=""
-              fill
-              unoptimized
-              sizes="60vw"
-            />
-            <div className="hk-hero__veil" />
           </div>
 
-          <div className="hk-container hk-hero__content">
+          <div className="hk-container hk-hero__layout">
             <div className="hk-hero__copy">
               <p className="hk-kicker">Liquid cooling for a higher world</p>
               <h1 className="hk-hero__title">
@@ -198,6 +182,17 @@ export default function HyperKoolPage() {
                   Explore GPU Cooling as a Service →
                 </Link>
               </div>
+            </div>
+
+            <div className="hk-hero__product">
+              <Image
+                src="/assets/hyperkool/hero-cold-plate.jpg"
+                alt="Hayagreeva HyperKool 5 cold plate with liquid cooling lines"
+                width={1280}
+                height={720}
+                priority
+                unoptimized
+              />
             </div>
           </div>
         </section>
