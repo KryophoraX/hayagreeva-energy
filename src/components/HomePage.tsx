@@ -1,568 +1,301 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import SiteFooter, { FinalCta } from "@/components/SiteFooter";
-import { PRIMARY_CTA } from "@/lib/nav";
+import { useState } from "react";
+import "@/styles/hyperkool-home.scss";
 
-const METRICS = [
-  { title: "Next-Gen GPU Ready", note: "Platform-aligned thermal service" },
-  { title: "Low Thermal Resistance", note: "Silicon-to-coolant path" },
-  { title: "Optimized Pressure Drop", note: "Rack-level pump realism" },
-  { title: "High Heat Flux", note: "Hotspot-capable architecture" },
-  { title: "Single-Phase DLC", note: "Direct liquid cooling" },
-];
+const NAV = [
+  { href: "/", label: "Home", active: true },
+  { href: "#custom-design", label: "Custom Design" },
+  { href: "/cooling-as-a-service", label: "GPU Cooling as a Service" },
+  { href: "/technology", label: "Technology" },
+  { href: "/company", label: "About" },
+  { href: "/contact", label: "Contact" },
+] as const;
 
-const SERVICES = [
-  {
-    href: "/cooling-as-a-service",
-    title: "Cooling as a Service",
-    body: "End-to-end thermal capacity for AI infrastructure — design, deployment, monitoring and lifecycle support without CapEx lock-in.",
-    cta: "Explore CaaS →",
-    image: "/assets/stock/hero-servers.jpg",
-  },
-  {
-    href: "/engineering",
-    title: "Thermal Co-Engineering",
-    body: "Rapid co-design with OEMs, ODMs and operators around real TDP, heat maps, mounting and coolant constraints.",
-    cta: "Explore Engineering →",
-    image: "/assets/stock/career-engineering.jpg",
-  },
-  {
-    href: "/technology",
-    title: "Direct-to-Chip Architecture",
-    body: "Service-delivered liquid cooling engineered at the silicon interface for next-generation AI accelerators.",
-    cta: "Explore Technology →",
-    image: "/assets/stock/tech-copper.jpg",
-  },
-];
+function IconCube() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M12 3 20 7.5v9L12 21 4 16.5v-9L12 3Z" />
+      <path d="M12 12 20 7.5M12 12v9M12 12 4 7.5" />
+    </svg>
+  );
+}
 
-const DIFFERENTIATORS = [
-  {
-    title: "Service-First Delivery",
-    body: "Cooling capacity delivered as an operable service — not a catalog of parts to assemble yourself.",
-  },
-  {
-    title: "Advanced Thermal Architecture",
-    body: "Optimized coolant paths engineered for demanding heat-flux profiles.",
-  },
-  {
-    title: "Low Thermal Resistance",
-    body: "Efficient heat transfer from silicon to coolant.",
-  },
-  {
-    title: "Optimized Pressure Drop",
-    body: "Performance designed around real rack-level pumping constraints.",
-  },
-  {
-    title: "Rapid Co-Engineering",
-    body: "Thermal solutions engineered around your processor, server and facility requirements.",
-  },
-  {
-    title: "US + India Engineering Ecosystem",
-    body: "Flexible engineering and deployment support for global AI infrastructure customers.",
-  },
-];
+function IconCloud() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M7 18h10a4 4 0 0 0 .4-8 5.5 5.5 0 0 0-10.5-1.5A3.5 3.5 0 0 0 7 18Z" />
+      <path d="M9 14h6M9 16.5h4" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-const PROCESS = [
-  {
-    num: "01",
-    title: "Requirements",
-    items: ["TDP", "Heat map", "IHS dimensions", "Mounting", "Coolant & flow"],
-  },
-  {
-    num: "02",
-    title: "Simulation",
-    items: ["CFD", "Thermal modeling", "Flow optimization", "Mechanical analysis"],
-  },
-  {
-    num: "03",
-    title: "Design",
-    items: ["Channel architecture", "Materials", "Fittings", "Mounting"],
-  },
-  {
-    num: "04",
-    title: "Prototype",
-    items: ["Rapid manufacturing", "Inspection", "Assembly"],
-  },
-  {
-    num: "05",
-    title: "Validation",
-    items: ["TTV testing", "Thermal resistance", "Pressure drop", "Leak testing"],
-  },
-  {
-    num: "06",
-    title: "Deploy & Operate",
-    items: ["Integration", "Monitoring", "Lifecycle support", "Scale-out"],
-  },
-];
+function IconHeat() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="M8 20c0-4 2-5 2-9" strokeLinecap="round" />
+      <path d="M12 20c0-5 2.5-6 2.5-11" strokeLinecap="round" />
+      <path d="M16 20c0-3.5 2-4.5 2-8" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-const CHARTS = [
-  "Thermal Resistance vs Flow Rate",
-  "Pressure Drop vs Flow Rate",
-  "GPU Temperature vs Heat Load",
-  "Coolant Inlet Temperature vs Junction Temperature",
-];
+function IconDrop() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="M12 3c3.5 4.5 6 8 6 11a6 6 0 1 1-12 0c0-3 2.5-6.5 6-11Z" />
+    </svg>
+  );
+}
 
-const SOLUTIONS = [
-  { href: "/solutions/hyperscale", title: "Hyperscalers", body: "Thermal services for ultra-high-density AI infrastructure." },
-  { href: "/solutions/neo-cloud", title: "Neo-Cloud Providers", body: "Rapid GPU deployment without thermal bottlenecks." },
-  { href: "/solutions/server-oem", title: "Server OEM / ODM", body: "Co-engineered cooling integrated into server architecture." },
-  { href: "/solutions/ai-data-centers", title: "AI Data Centers", body: "High-density direct liquid cooling as a managed service." },
-  { href: "/solutions/hpc", title: "HPC", body: "Sustained cooling for scientific and technical computing." },
-  { href: "/solutions/semiconductor", title: "Semiconductor Companies", body: "Thermal co-design services for next-generation silicon." },
-];
+function IconLayers() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+      <path d="m3 12 9 5 9-5" />
+      <path d="m3 16 9 5 9-5" />
+    </svg>
+  );
+}
 
-const RESOURCES = [
-  { href: "/resources#papers", title: "Technical Papers", body: "Thermal-performance reports, architecture papers, TTV validation results." },
-  { href: "/resources#notes", title: "Application Notes", body: "GB200, GB300, B300 and platform-specific cooling guidance." },
-  { href: "/resources#cases", title: "Case Studies", body: "OEM collaboration, neo-cloud and AI data-center deployments." },
-  { href: "/resources#insights", title: "Insights", body: "AI thermal roadmap, DLC vs immersion, rack density and CDUs." },
-];
+function IconShield() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" />
+      <path d="m9 12 2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function HomePage() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <>
-      <main className="page-main">
-        <section className="hero">
-          <div className="hero-media" aria-hidden="true">
+    <div className="hk-home">
+      <header className="hk-header">
+        <div className="hk-container hk-header__inner">
+          <Link className="hk-logo" href="/" aria-label="Hayagreeva HyperKool home">
             <Image
-              src="/assets/stock/hero-datacenter.jpg"
-              alt=""
-              fill
+              src="/assets/hyperkool/logo.png"
+              alt="Hayagreeva HyperKool — Advanced Liquid Cooling"
+              width={280}
+              height={70}
               priority
-              sizes="100vw"
             />
-          </div>
-          <div className="hero-overlay" aria-hidden="true" />
-          <div className="container hero-content">
-            <span className="hero-brand">Hayagreeva Energy</span>
-            <h1 className="hero-title">Cooling the Next Generation of AI</h1>
-            <p className="hero-lead">
-              AI thermal engineering as a service — direct-to-chip liquid cooling
-              designed, deployed and operated for the extreme demands of AI, HPC
-              and accelerated computing.
-            </p>
-            <p className="hero-support">
-              Platform-aligned cooling for NVIDIA, AMD and next-generation
-              accelerator environments — delivered as an engineering service.
-            </p>
-            <div className="hero-actions">
-              <Link className="btn btn-primary" href="/cooling-as-a-service">
-                Explore Our Service
+          </Link>
+
+          <nav className="hk-nav" aria-label="Primary">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={"active" in item && item.active ? "is-active" : undefined}
+              >
+                {item.label}
               </Link>
-              <Link className="btn btn-secondary" href={PRIMARY_CTA.href}>
-                {PRIMARY_CTA.label}
-              </Link>
-            </div>
-          </div>
-          <div className="audience-bar">
-            <div className="container audience-bar__inner">
-              <span>AI Infrastructure</span>
-              <span>Hyperscale</span>
-              <span>Neo-Cloud</span>
-              <span>HPC</span>
-              <span>OEM / ODM</span>
-            </div>
-          </div>
-        </section>
+            ))}
+          </nav>
 
-        <section className="section section-elevated section-accent-edge">
-          <div className="container">
-            <p className="kicker">Performance focus</p>
-            <h2 className="section-title section-title--wide">
-              Technical capability at a glance
-            </h2>
-            <p className="section-lead">
-              Quantified TTV metrics will replace these capability labels once
-              validation programs publish controlled results.
-            </p>
-            <div className="metrics-strip" style={{ marginTop: "2rem" }}>
-              {METRICS.map((m) => (
-                <div className="metric-cell" key={m.title}>
-                  <strong>{m.title}</strong>
-                  <span>{m.note}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          <Link
+            className="hk-btn hk-btn--primary hk-btn--sm hk-header__cta"
+            href="/contact?intent=demo"
+          >
+            Request a Demo →
+          </Link>
 
-        <section className="section section-dark">
-          <div className="container split">
-            <div>
-              <p className="kicker">Built for AI</p>
-              <h2 className="section-title section-title--wide">
-                AI Compute Is Getting Hotter. Cooling Has to Evolve Faster.
-              </h2>
-              <p className="section-lead">
-                GPU power density is increasing at unprecedented rates. Hayagreeva
-                delivers high-performance liquid-cooling architectures as a
-                service — removing heat at the silicon interface while managing
-                thermal resistance, pressure drop and cooling-energy requirements.
-              </p>
-              <Link className="text-link" href="/technology">
-                See Our Technology →
-              </Link>
-            </div>
-            <div className="evolution" aria-label="Cooling evolution">
-              <div className="evolution-step">
-                <span className="evolution-step__index">01</span>
-                <div>
-                  <strong>GPU power density</strong>
-                  <span>Rising package TDP and heat flux</span>
-                </div>
-              </div>
-              <div className="evolution-step">
-                <span className="evolution-step__index">02</span>
-                <div>
-                  <strong>Traditional air cooling</strong>
-                  <span>Limited at high-density racks</span>
-                </div>
-              </div>
-              <div className="evolution-step">
-                <span className="evolution-step__index">03</span>
-                <div>
-                  <strong>Conventional cold plates</strong>
-                  <span>Not always matched to AI hotspots</span>
-                </div>
-              </div>
-              <div className="evolution-step">
-                <span className="evolution-step__index">04</span>
-                <div>
-                  <strong>Hayagreeva cooling service</strong>
-                  <span>Engineered, validated and operated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          <button
+            className="hk-nav-toggle"
+            type="button"
+            aria-expanded={open}
+            aria-controls="hk-nav-mobile"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+            <span className="visually-hidden">Menu</span>
+          </button>
+        </div>
 
-        <section className="section section-graphite">
-          <div className="container">
-            <p className="kicker">Our services</p>
-            <h2 className="section-title">How we deliver AI cooling</h2>
-            <p className="section-lead">
-              Hayagreeva is a thermal-engineering service company — from
-              architecture and co-design through validation, deployment and
-              ongoing Cooling as a Service.
-            </p>
-            <div className="card-grid card-grid--3">
-              {SERVICES.map((s) => (
-                <article className="card card--media" key={s.href}>
-                  <Image src={s.image} alt="" width={640} height={400} />
-                  <div className="card__body">
-                    <h3>{s.title}</h3>
-                    <p>{s.body}</p>
-                    <Link className="text-link" href={s.href}>
-                      {s.cta}
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-elevated">
-          <div className="container featured">
-            <div className="media-frame">
-              <Image
-                src="/assets/stock/tech-copper.jpg"
-                alt="Copper thermal exchange surface"
-                width={800}
-                height={600}
-              />
-            </div>
-            <div>
-              <p className="kicker">Service capability</p>
-              <h2 className="section-title">Engineered Where Every Degree Matters</h2>
-              <p className="section-lead">
-                Our cooling service is built on coupled thermal, fluid and
-                mechanical optimization — so next-generation AI accelerators stay
-                within operating limits under real rack and facility constraints.
-              </p>
-              <ul className="callout-list">
-                <li>Requirements capture &amp; heat-map analysis</li>
-                <li>Direct-to-chip architecture design</li>
-                <li>Hotspot targeting &amp; flow distribution</li>
-                <li>CFD and thermal validation</li>
-                <li>Prototype through qualification</li>
-                <li>Deployment, monitoring &amp; lifecycle support</li>
-              </ul>
-              <div className="metric-row">
-                <div>Low Thermal Resistance</div>
-                <div>Low Pressure Drop</div>
-                <div>Uniform Temperature</div>
-                <div>High Heat-Flux Capability</div>
-              </div>
-              <Link className="text-link" href="/cooling-as-a-service">
-                View Cooling as a Service →
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-dark">
-          <div className="container">
-            <p className="kicker">Platform support</p>
-            <h2 className="section-title section-title--wide">
-              Engineered for the AI Platforms Driving the Future
-            </h2>
-            <div className="platform-grid">
-              <div className="platform-card">
-                <h3>NVIDIA</h3>
-                <ul>
-                  <li>GB200</li>
-                  <li>GB300</li>
-                  <li>B300</li>
-                  <li>Next-generation architectures</li>
-                </ul>
-              </div>
-              <div className="platform-card">
-                <h3>AMD</h3>
-                <ul>
-                  <li>Instinct accelerators</li>
-                </ul>
-              </div>
-              <div className="platform-card">
-                <h3>Intel</h3>
-                <ul>
-                  <li>AI / HPC processors</li>
-                </ul>
-              </div>
-              <div className="platform-card">
-                <h3>Custom ASIC</h3>
-                <ul>
-                  <li>Hyperscaler AI accelerators</li>
-                  <li>Custom silicon</li>
-                </ul>
-              </div>
-            </div>
-            <p className="section-lead" style={{ marginTop: "2rem" }}>
-              Don&apos;t see your processor?
-            </p>
-            <Link className="text-link" href={PRIMARY_CTA.href}>
-              Talk to Our Engineering Team →
+        <nav
+          id="hk-nav-mobile"
+          className={`hk-nav-mobile${open ? " is-open" : ""}`}
+          aria-label="Mobile"
+        >
+          {NAV.map((item) => (
+            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
+              {item.label}
             </Link>
-          </div>
-        </section>
+          ))}
+          <Link
+            className="hk-btn hk-btn--primary"
+            href="/contact?intent=demo"
+            style={{ marginTop: "1rem" }}
+            onClick={() => setOpen(false)}
+          >
+            Request a Demo →
+          </Link>
+        </nav>
+      </header>
 
-        <section className="section section-graphite">
-          <div className="container">
-            <p className="kicker">Why Hayagreeva</p>
-            <h2 className="section-title">Service differentiators</h2>
-            <div className="card-grid card-grid--3">
-              {DIFFERENTIATORS.map((d) => (
-                <article className="card" key={d.title}>
-                  <h3>{d.title}</h3>
-                  <p>{d.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-elevated" id="engineering-process">
-          <div className="container">
-            <p className="kicker">How we engage</p>
-            <h2 className="section-title section-title--wide">
-              From Silicon Requirements to Operated Cooling
-            </h2>
-            <p className="section-lead">
-              Engineering, validation and operations are the service — not
-              afterthoughts attached to a parts sale.
-            </p>
-            <div className="process">
-              {PROCESS.map((step) => (
-                <div className="process-step" key={step.num}>
-                  <div className="process-step__num">{step.num}</div>
-                  <h3>{step.title}</h3>
-                  <ul>
-                    {step.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <Link className="text-link" href="/engineering">
-              Explore Engineering →
-            </Link>
-          </div>
-        </section>
-
-        <section className="section section-dark">
-          <div className="container">
-            <p className="kicker">Performance &amp; validation</p>
-            <h2 className="section-title">Performance You Can Measure</h2>
-            <p className="section-lead">
-              Interactive charts and published TTV results will land here as
-              validation programs complete. Chart frameworks are ready for data.
-            </p>
-            <div className="chart-grid">
-              {CHARTS.map((title, i) => (
-                <article className="chart-card" key={title}>
-                  <h3>{title}</h3>
-                  <div className="chart-placeholder" aria-hidden="true">
-                    {[40, 55, 70, 48, 82, 60, 75].map((h, idx) => (
-                      <span key={idx} style={{ height: `${(h + i * 3) % 90}%` }} />
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-            <p className="chart-note">
-              Tested using a calibrated Thermal Test Vehicle (TTV) under controlled
-              coolant flow and inlet-temperature conditions — results published upon
-              program completion.
-            </p>
-            <Link className="text-link" href="/technology/testing-validation">
-              Request Technical Data →
-            </Link>
-          </div>
-        </section>
-
-        <section className="section section-graphite">
-          <div className="container">
-            <p className="kicker">Solutions</p>
-            <h2 className="section-title">Services built around your role in AI</h2>
-            <div className="card-grid card-grid--3">
-              {SOLUTIONS.map((s) => (
-                <article className="card" key={s.href}>
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                  <Link className="text-link" href={s.href}>
-                    Explore →
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-elevated">
-          <div className="container split">
-            <div>
-              <p className="kicker">Cooling as a Service</p>
-              <h2 className="section-title section-title--wide">
-                Cooling Infrastructure Without the Traditional CapEx Barrier
-              </h2>
-              <p className="section-lead">
-                Cooling capacity delivered as a scalable service aligned with your
-                AI infrastructure deployment.
+      <main>
+        <section className="hk-hero">
+          <div className="hk-container hk-hero__grid">
+            <div className="hk-hero__copy">
+              <p className="hk-kicker">Liquid cooling for a higher world</p>
+              <h1 className="hk-hero__title">
+                Custom Cold Plate Design &amp; GPU Cooling as a Service
+              </h1>
+              <p className="hk-hero__lead">
+                Submit your form factor, and HyperKool will design and deliver a
+                high-performance cold plate. Get end-to-end GPU cooling support
+                from design to deployment.
               </p>
-              <ul className="checklist">
-                <li>Design</li>
-                <li>Equipment</li>
-                <li>Installation</li>
-                <li>Monitoring</li>
-                <li>Maintenance</li>
-                <li>Lifecycle support</li>
-              </ul>
-              <Link className="text-link" href="/cooling-as-a-service">
-                Explore Cooling as a Service →
-              </Link>
-            </div>
-            <div>
-              <div className="caas-flow" aria-label="CaaS flow">
-                <span className="caas-node">Customer AI Compute</span>
-                <span className="caas-arrow">↓</span>
-                <span className="caas-node caas-node--accent">
-                  Hayagreeva Service
-                </span>
-                <span className="caas-arrow">↓</span>
-                <span className="caas-node">Manifold / CDU</span>
-                <span className="caas-arrow">↓</span>
-                <span className="caas-node">Monitoring</span>
-                <span className="caas-arrow">↓</span>
-                <span className="caas-node">Cooling Infrastructure</span>
+              <div className="hk-hero__actions">
+                <Link className="hk-btn hk-btn--primary" href="/contact?intent=form-factor">
+                  Submit Your Form Factor →
+                </Link>
+                <Link
+                  className="hk-btn hk-btn--ghost"
+                  href="/cooling-as-a-service"
+                >
+                  Explore GPU Cooling as a Service →
+                </Link>
               </div>
-              <div className="media-frame">
+            </div>
+
+            <div className="hk-hero__visual">
+              <div className="hk-hero__glow" aria-hidden />
+              <div className="hk-hero__image">
                 <Image
-                  src="/assets/stock/hero-servers.jpg"
-                  alt="Server infrastructure"
-                  width={700}
-                  height={420}
+                  src="/assets/hyperkool/hero-cold-plate.jpg"
+                  alt="Hayagreeva HyperKool 5 cold plate with liquid cooling lines"
+                  width={1280}
+                  height={720}
+                  priority
+                  unoptimized
                 />
               </div>
             </div>
           </div>
         </section>
 
-        <section className="section section-dark">
-          <div className="container">
-            <p className="kicker">Co-development</p>
-            <h2 className="section-title section-title--wide">
-              Let&apos;s Engineer Your Next AI Platform Together
-            </h2>
-            <p className="section-lead">
-              Hayagreeva partners with processor developers, server OEMs, ODMs, AI
-              infrastructure providers and data-center operators to deliver thermal
-              services around real platform requirements.
-            </p>
-            <div className="codev">
-              <div className="codev-partners">
-                <span>Silicon Company</span>
-                <span>Server OEM</span>
-                <span>Hayagreeva</span>
-                <span>Operated Thermal Service</span>
-              </div>
+        <section className="hk-services" id="custom-design">
+          <div className="hk-container hk-services__grid">
+            <article className="hk-service">
               <div>
-                <div className="pipeline" aria-label="Engagement pipeline">
-                  {[
-                    "NDA",
-                    "Thermal Requirements",
-                    "Concept",
-                    "CFD",
-                    "Prototype",
-                    "TTV Validation",
-                    "Qualification",
-                    "Operate",
-                  ].map((step) => (
-                    <span key={step}>{step}</span>
-                  ))}
+                <div className="hk-service__icon" aria-hidden>
+                  <IconCube />
                 </div>
-                <Link className="text-link" href="/company/partners">
-                  Partner With Engineering →
-                </Link>
+                <h2 className="hk-service__title">Custom Cold Plate Design</h2>
+                <p className="hk-service__body">
+                  Submit your form factor and requirements. We design and deliver
+                  a high-performance cold plate tailored to your application.
+                </p>
+                <ul className="hk-check">
+                  {[
+                    "Upload CAD / STEP / DXF",
+                    "Share thermal & flow requirements",
+                    "Prototype to production",
+                  ].map((item) => (
+                    <li key={item}>
+                      <span className="hk-check__mark" aria-hidden>
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
+              <div className="hk-service__media">
+                <Image
+                  src="/assets/hyperkool/service-custom-design.jpg"
+                  alt="HyperKool cold plate with engineering dimension overlays"
+                  width={1152}
+                  height={864}
+                  unoptimized
+                />
+              </div>
+            </article>
+
+            <article className="hk-service">
+              <div>
+                <div className="hk-service__icon" aria-hidden>
+                  <IconCloud />
+                </div>
+                <h2 className="hk-service__title">GPU Cooling as a Service</h2>
+                <p className="hk-service__body">
+                  End-to-end GPU cooling support to deploy and operate
+                  high-performance AI infrastructure.
+                </p>
+                <ul className="hk-check">
+                  {[
+                    "Design support",
+                    "Validation & qualification",
+                    "Deployment support",
+                    "Lifecycle optimization",
+                  ].map((item) => (
+                    <li key={item}>
+                      <span className="hk-check__mark" aria-hidden>
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="hk-service__media">
+                <Image
+                  src="/assets/hyperkool/service-gpu-caas.jpg"
+                  alt="Liquid-cooled GPU server racks with blue coolant lines"
+                  width={1152}
+                  height={864}
+                  unoptimized
+                />
+              </div>
+            </article>
           </div>
         </section>
 
-        <section className="section section-elevated">
-          <div className="container">
-            <div className="inception">
-              <h2>Part of the NVIDIA Inception Program</h2>
-              <p>
-                Supporting text around Hayagreeva&apos;s work in AI infrastructure
-                and next-generation GPU thermal management, subject to NVIDIA&apos;s
-                applicable program and logo usage requirements.
-              </p>
-            </div>
+        <section className="hk-benefits" aria-label="Capabilities">
+          <div className="hk-container hk-benefits__grid">
+            {[
+              {
+                icon: <IconHeat />,
+                title: "High Heat Flux",
+                body: "Engineered for next-gen chips and ultra-high power densities.",
+              },
+              {
+                icon: <IconDrop />,
+                title: "Low Pressure Drop",
+                body: "Optimized flow paths for efficient system design.",
+              },
+              {
+                icon: <IconLayers />,
+                title: "Scalable Design",
+                body: "From racks to multi-megawatt deployments.",
+              },
+              {
+                icon: <IconShield />,
+                title: "Validation Ready",
+                body: "Proven performance, reliability and qualification support.",
+              },
+            ].map((item) => (
+              <div className="hk-benefit" key={item.title}>
+                <div className="hk-benefit__icon" aria-hidden>
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="hk-benefit__title">{item.title}</h3>
+                  <p className="hk-benefit__body">{item.body}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
-
-        <section className="section section-graphite">
-          <div className="container">
-            <p className="kicker">Resources</p>
-            <h2 className="section-title">Technical depth for operators and partners</h2>
-            <div className="card-grid card-grid--4">
-              {RESOURCES.map((r) => (
-                <article className="card" key={r.href}>
-                  <h3>{r.title}</h3>
-                  <p>{r.body}</p>
-                  <Link className="text-link" href={r.href}>
-                    Browse →
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <FinalCta />
       </main>
-      <SiteFooter />
-    </>
+    </div>
   );
 }
