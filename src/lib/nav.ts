@@ -6,66 +6,31 @@ export type NavItem = {
 
 export const NAV_LINKS: NavItem[] = [
   {
-    href: "/technology",
-    label: "Technology",
-    children: [
-      { href: "/technology/cold-plate", label: "Cold Plate Technology" },
-      { href: "/technology/thermal-architecture", label: "Thermal Architecture" },
-      { href: "/technology/advanced-rd", label: "Advanced Cooling R&D" },
-      { href: "/technology/testing-validation", label: "Testing & Validation" },
-    ],
+    href: "/",
+    label: "Home",
   },
   {
-    href: "/solutions",
-    label: "Solutions",
-    children: [
-      { href: "/solutions/hyperscale", label: "Hyperscale" },
-      { href: "/solutions/neo-cloud", label: "Neo-Cloud" },
-      { href: "/solutions/ai-data-centers", label: "AI Data Centers" },
-      { href: "/solutions/server-oem", label: "Server OEM / ODM" },
-      { href: "/solutions/hpc", label: "HPC" },
-      { href: "/solutions/semiconductor", label: "Semiconductor" },
-    ],
-  },
-  {
-    href: "/engineering",
-    label: "Engineering",
-    children: [
-      { href: "/engineering#design", label: "Design Engineering" },
-      { href: "/engineering#simulation", label: "CFD & Simulation" },
-      { href: "/engineering#prototyping", label: "Prototyping" },
-      { href: "/engineering#validation", label: "Testing & Validation" },
-      { href: "/engineering#manufacturing", label: "Manufacturing" },
-    ],
+    href: "/#custom-design",
+    label: "Custom Design",
   },
   {
     href: "/cooling-as-a-service",
-    label: "CaaS",
+    label: "GPU Cooling as a Service",
   },
   {
-    href: "/hyperkool",
-    label: "HyperKool",
-  },
-  {
-    href: "/resources",
-    label: "Resources",
+    href: "/technology",
+    label: "Technology",
   },
   {
     href: "/company",
-    label: "Company",
-    children: [
-      { href: "/company", label: "About" },
-      { href: "/company/leadership", label: "Leadership" },
-      { href: "/company/partners", label: "Partners" },
-      { href: "/company/careers", label: "Careers" },
-    ],
+    label: "About",
   },
   { href: "/contact", label: "Contact" },
 ];
 
 export const PRIMARY_CTA = {
-  href: "/contact?intent=engineer",
-  label: "Talk to a Thermal Engineer",
+  href: "/contact?intent=evaluation",
+  label: "Request a Demo →",
 } as const;
 
 export const SECONDARY_CTA = {

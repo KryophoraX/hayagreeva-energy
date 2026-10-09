@@ -43,14 +43,14 @@ export default function SiteFooter() {
           <Link href="/" aria-label="Hayagreeva home">
             <Image
               className="footer-logo"
-              src="/assets/logo-light.png"
-              alt="Hayagreeva"
-              width={200}
-              height={30}
+              src="/assets/hyperkool/logo.png"
+              alt="Hayagreeva HyperKool"
+              width={280}
+              height={67}
             />
           </Link>
           <p className="footer-tagline">
-            AI thermal engineering as a service · Direct-to-chip liquid cooling
+            Custom cold plate design · GPU Cooling as a Service
           </p>
         </div>
         <div>
@@ -69,7 +69,7 @@ export default function SiteFooter() {
               <Link href="/cooling-as-a-service">Cooling as a Service</Link>
             </li>
             <li>
-              <Link href="/hyperkool">HyperKool</Link>
+              <Link href="/">HyperKool Home</Link>
             </li>
           </ul>
         </div>
@@ -112,7 +112,7 @@ export default function SiteFooter() {
         <div>
           <span>© 2026 Hayagreeva Energy</span>
           {" · "}
-          <Link href="/contact">Privacy</Link>
+          <Link href="/privacy">Privacy</Link>
         </div>
         <div className="footer-social">
           {SOCIAL.map((item) => (

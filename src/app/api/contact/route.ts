@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import {
@@ -25,8 +26,55 @@ type ContactBody = {
   startedAt?: unknown;
 };
 
-function jsonError(message: string, status: number, extra?: HeadersInit) {
-  return NextResponse.json({ ok: false, error: message }, { status, headers: extra });
+function jsonError(
+  message: string,
+  status: number,
+  extra?: Record<string, string>
+) {
+  return NextResponse.json(
+    { ok: false, error: message },
+    {
+      status,
+      headers: { "Cache-Control": "no-store", ...extra },
+    }
+  );
+}
+
+function tokensMatch(left: string, right: string) {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  return (
+    leftBuffer.length === rightBuffer.length &&
+    timingSafeEqual(leftBuffer, rightBuffer)
+  );
+}
+
+async function readJsonBody(request: Request): Promise<ContactBody> {
+  if (!request.body) return {};
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_BODY_BYTES) {
+      await reader.cancel();
+      throw new Error("PAYLOAD_TOO_LARGE");
+    }
+    chunks.push(value);
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  return JSON.parse(new TextDecoder().decode(body)) as ContactBody;
 }
 
 export async function POST(request: Request) {
@@ -54,8 +102,11 @@ export async function POST(request: Request) {
 
   let body: ContactBody;
   try {
-    body = (await request.json()) as ContactBody;
-  } catch {
+    body = await readJsonBody(request);
+  } catch (error) {
+    if (error instanceof Error && error.message === "PAYLOAD_TOO_LARGE") {
+      return jsonError("Payload too large.", 413);
+    }
     return jsonError("Invalid JSON body.", 400);
   }
 
@@ -68,7 +119,7 @@ export async function POST(request: Request) {
   const cookieStore = await cookies();
   const csrfCookie = cookieStore.get(CSRF_COOKIE)?.value || "";
   const csrfToken = String(body.csrfToken || "");
-  if (!csrfCookie || !csrfToken || csrfCookie !== csrfToken) {
+  if (!csrfCookie || !csrfToken || !tokensMatch(csrfCookie, csrfToken)) {
     return jsonError("Security token invalid. Refresh and try again.", 403);
   }
 
@@ -146,12 +197,35 @@ export async function POST(request: Request) {
       return jsonError("Delivery failed. Please try again shortly.", 502);
     }
 
-    return NextResponse.json({ ok: true });
+    const response = NextResponse.json(
+      { ok: true },
+      { headers: { "Cache-Control": "no-store" } }
+    );
+    response.cookies.set(CSRF_COOKIE, "", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: new URL(request.url).protocol === "https:",
+      path: "/",
+      maxAge: 0,
+    });
+    return response;
   } catch {
     return jsonError("Delivery unavailable. Please try again shortly.", 502);
   }
 }
 
-export async function GET() {
-  return NextResponse.json({ ok: false, error: "Method not allowed." }, { status: 405 });
+export async function GET(request: Request) {
+  const csrfToken = crypto.randomUUID();
+  const response = NextResponse.json(
+    { ok: true, csrfToken },
+    { headers: { "Cache-Control": "no-store" } }
+  );
+  response.cookies.set(CSRF_COOKIE, csrfToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: new URL(request.url).protocol === "https:",
+    path: "/",
+    maxAge: 30 * 60,
+  });
+  return response;
 }

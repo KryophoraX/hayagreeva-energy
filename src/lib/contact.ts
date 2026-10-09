@@ -30,37 +30,52 @@ export function isAllowedOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
   const referer = request.headers.get("referer");
   const host = request.headers.get("host");
+  const fetchSite = request.headers.get("sec-fetch-site");
 
   if (!host) return false;
+  if (fetchSite && !["same-origin", "none"].includes(fetchSite)) return false;
 
-  const allowedHosts = new Set(
-    [
-      host,
-      process.env.NEXT_PUBLIC_SITE_HOST,
-      "hayagreeva-energy.vercel.app",
-      "hayagreevaenergy.com",
-      "www.hayagreevaenergy.com",
-      "127.0.0.1:3000",
-      "127.0.0.1:3001",
-      "localhost:3000",
-      "localhost:3001",
-    ].filter(Boolean) as string[]
-  );
+  const allowedHosts = new Set([
+    host.toLowerCase(),
+    "hyperkool.ai",
+    "www.hyperkool.ai",
+    "hayagreevaenergy.com",
+    "www.hayagreevaenergy.com",
+  ]);
+
+  const configuredHost = process.env.SITE_HOST;
+  if (configuredHost) {
+    try {
+      allowedHosts.add(
+        (configuredHost.includes("://")
+          ? new URL(configuredHost).host
+          : configuredHost
+        ).toLowerCase()
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    allowedHosts.add("127.0.0.1:3000");
+    allowedHosts.add("localhost:3000");
+  }
 
   const matchesHost = (value: string | null) => {
     if (!value) return false;
     try {
       const url = new URL(value);
-      return allowedHosts.has(url.host);
+      const validProtocol =
+        url.protocol === "https:" ||
+        (process.env.NODE_ENV !== "production" && url.protocol === "http:");
+      return validProtocol && allowedHosts.has(url.host.toLowerCase());
     } catch {
       return false;
     }
   };
 
-  // Browsers send Origin on cross-origin and often on same-origin POST via fetch
   if (origin) return matchesHost(origin);
   if (referer) return matchesHost(referer);
-
-  // Same-origin fetch without Origin in some environments — require at least Host
-  return true;
+  return false;
 }

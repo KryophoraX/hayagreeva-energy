@@ -1,19 +1,7 @@
-"use client";
-
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 import HyperKoolHero from "@/components/HyperKoolHero";
+import SiteFooter from "@/components/SiteFooter";
 import "@/styles/hyperkool-home.scss";
-
-const NAV = [
-  { href: "/hyperkool", label: "Home", active: true },
-  { href: "/hyperkool#custom-design", label: "Custom Design" },
-  { href: "/cooling-as-a-service", label: "GPU Cooling as a Service" },
-  { href: "/technology", label: "Technology" },
-  { href: "/company", label: "About" },
-  { href: "/contact", label: "Contact" },
-] as const;
 
 function IconCube() {
   return (
@@ -71,80 +59,8 @@ function IconShield() {
 }
 
 export default function HyperKoolPage() {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="hk-home">
-      <header className="hk-header">
-        <div className="hk-container hk-header__inner">
-          <Link
-            className="hk-logo"
-            href="/hyperkool"
-            aria-label="Hayagreeva HyperKool"
-          >
-            <Image
-              src="/assets/hyperkool/logo.png"
-              alt="Hayagreeva HyperKool — Advanced Liquid Cooling"
-              width={280}
-              height={70}
-              priority
-            />
-          </Link>
-
-          <nav className="hk-nav" aria-label="Primary">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={"active" in item && item.active ? "is-active" : undefined}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <Link
-            className="hk-btn hk-btn--primary hk-btn--sm hk-header__cta"
-            href="/contact?intent=demo"
-          >
-            Request a Demo →
-          </Link>
-
-          <button
-            className="hk-nav-toggle"
-            type="button"
-            aria-expanded={open}
-            aria-controls="hk-nav-mobile"
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span />
-            <span />
-            <span />
-            <span className="visually-hidden">Menu</span>
-          </button>
-        </div>
-
-        <nav
-          id="hk-nav-mobile"
-          className={`hk-nav-mobile${open ? " is-open" : ""}`}
-          aria-label="Mobile"
-        >
-          {NAV.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            className="hk-btn hk-btn--primary"
-            href="/contact?intent=demo"
-            style={{ marginTop: "1rem" }}
-            onClick={() => setOpen(false)}
-          >
-            Request a Demo →
-          </Link>
-        </nav>
-      </header>
-
       <main>
         <HyperKoolHero />
 
@@ -264,6 +180,7 @@ export default function HyperKoolPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

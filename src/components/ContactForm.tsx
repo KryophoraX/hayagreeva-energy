@@ -3,12 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-const RATE_LIMIT_KEY = "hg_form_submissions";
-const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const MIN_FORM_DELAY_MS = 3000;
-const FORM_ENDPOINT =
-  "https://formsubmit.co/ajax/bsivanandame@hayagreevaenergy.com";
 
 const INTEREST_LABELS: Record<string, string> = {
   engineer: "Talk to a Thermal Engineer",
@@ -23,6 +18,8 @@ const INTEREST_LABELS: Record<string, string> = {
 
 const INTENT_MAP: Record<string, string> = {
   engineer: "engineer",
+  "form-factor": "engineer",
+  demo: "evaluation",
   evaluation: "evaluation",
   technical: "technical",
   caas: "caas",
@@ -37,32 +34,9 @@ function stripMarkup(value: string) {
     .trim();
 }
 
-function isRateLimited() {
-  try {
-    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
-    const entries: number[] = raw ? JSON.parse(raw) : [];
-    const recent = entries.filter((ts) => Date.now() - ts < RATE_LIMIT_WINDOW_MS);
-    sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(recent));
-    return recent.length >= RATE_LIMIT_MAX;
-  } catch {
-    return false;
-  }
-}
-
-function recordSubmission() {
-  try {
-    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
-    const entries: number[] = raw ? JSON.parse(raw) : [];
-    entries.push(Date.now());
-    sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(entries));
-  } catch {
-    /* storage unavailable */
-  }
-}
-
 export default function ContactForm() {
   const searchParams = useSearchParams();
-  const startedAt = useRef(Date.now());
+  const startedAt = useRef(0);
   const [csrfToken, setCsrfToken] = useState("");
   const [status, setStatus] = useState<{ message: string; error: boolean } | null>(
     null
@@ -72,14 +46,35 @@ export default function ContactForm() {
   const defaultInterest = INTENT_MAP[intent] || "engineer";
 
   useEffect(() => {
-    let token = "";
-    try {
-      token = crypto.randomUUID();
-      sessionStorage.setItem("hg_csrf", token);
-    } catch {
-      token = String(Date.now());
+    const controller = new AbortController();
+    startedAt.current = Date.now();
+
+    async function loadCsrfToken() {
+      try {
+        const response = await fetch("/api/contact", {
+          credentials: "same-origin",
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        const result = (await response.json()) as {
+          ok?: boolean;
+          csrfToken?: string;
+        };
+        if (!response.ok || !result.ok || !result.csrfToken) {
+          throw new Error("Token unavailable");
+        }
+        setCsrfToken(result.csrfToken);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setStatus({
+          message: "The secure form could not be initialized. Refresh and try again.",
+          error: true,
+        });
+      }
     }
-    setCsrfToken(token);
+
+    loadCsrfToken();
+    return () => controller.abort();
   }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -101,21 +96,12 @@ export default function ContactForm() {
       return;
     }
 
-    if (isRateLimited()) {
-      setStatus({
-        message: "Too many submissions. Try again later.",
-        error: true,
-      });
-      return;
-    }
-
     const name = stripMarkup(String(data.get("name") || ""));
     const email = stripMarkup(String(data.get("email") || ""));
     const company = stripMarkup(String(data.get("company") || ""));
     const interestValue = stripMarkup(String(data.get("interest") || ""));
     const message = stripMarkup(String(data.get("message") || ""));
     const token = String(data.get("csrf_token") || "");
-    const interestLabel = INTEREST_LABELS[interestValue] || interestValue;
 
     if (!name || name.length < 2 || name.length > 120) {
       setStatus({
@@ -149,14 +135,7 @@ export default function ContactForm() {
       return;
     }
 
-    let storedToken = "";
-    try {
-      storedToken = sessionStorage.getItem("hg_csrf") || "";
-    } catch {
-      storedToken = "";
-    }
-
-    if (!token || token !== storedToken) {
+    if (!token || token !== csrfToken) {
       setStatus({
         message: "Security token expired. Refresh and try again.",
         error: true,
@@ -171,18 +150,18 @@ export default function ContactForm() {
       name,
       email,
       company: company || "—",
-      interest: interestLabel,
+      interest: interestValue,
       message: message || "—",
-      _subject: `Hayagreeva inquiry — ${interestLabel}`,
-      _template: "table",
-      _replyto: email,
-      _honey: honeypot,
-      _blacklist: "spam,viagra,crypto",
+      website: honeypot,
+      csrfToken: token,
+      startedAt: startedAt.current,
     };
 
     try {
-      const response = await fetch(FORM_ENDPOINT, {
+      const response = await fetch("/api/contact", {
         method: "POST",
+        credentials: "same-origin",
+        cache: "no-store",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -190,26 +169,27 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json().catch(() => ({}));
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
 
-      if (
-        !response.ok ||
-        result.success === "false" ||
-        result.success === false
-      ) {
-        throw new Error(result.message || "Delivery failed");
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Delivery failed");
       }
 
-      recordSubmission();
       setStatus({
         message: "Thank you. Your inquiry was sent to Hayagreeva Energy.",
         error: false,
       });
+      setCsrfToken("");
       form.reset();
-    } catch {
+    } catch (error) {
       setStatus({
         message:
-          "We could not send your inquiry right now. Email bsivanandame@hayagreevaenergy.com directly, or try again shortly.",
+          error instanceof Error && error.message
+            ? error.message
+            : "We could not send your inquiry right now. Email bsivanandame@hayagreevaenergy.com directly, or try again shortly.",
         error: true,
       });
     } finally {
@@ -298,7 +278,7 @@ export default function ContactForm() {
       <button
         className="btn btn-primary btn-lg"
         type="submit"
-        disabled={busy}
+        disabled={busy || !csrfToken}
         aria-busy={busy}
       >
         Submit inquiry

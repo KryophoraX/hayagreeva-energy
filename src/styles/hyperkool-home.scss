@@ -25,6 +25,10 @@ body:has(.hk-home) {
   font-family: var(--font-ibm-plex), system-ui, sans-serif;
 }
 
+.hk-home > main {
+  padding-top: var(--header-h);
+}
+
 .hk-home * {
   box-sizing: border-box;
 }

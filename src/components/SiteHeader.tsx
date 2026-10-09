@@ -3,26 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NAV_LINKS, PRIMARY_CTA } from "@/lib/nav";
 
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
   return (
     <header className="site-header">
       <div className="header-inner">
-        <Link className="site-logo" href="/" aria-label="Hayagreeva Energy home">
+        <Link
+          className="site-logo"
+          href="/"
+          aria-label="Hayagreeva HyperKool home"
+          onClick={() => setOpen(false)}
+        >
           <Image
-            src="/assets/logo-light.png"
-            alt="Hayagreeva Energy"
-            width={200}
-            height={30}
+            src="/assets/hyperkool/logo.png"
+            alt="Hayagreeva HyperKool — Advanced Liquid Cooling"
+            width={280}
+            height={67}
             priority
           />
         </Link>
@@ -41,18 +42,18 @@ export default function SiteHeader() {
                   href={item.href}
                   className={`nav-link${active ? " is-active" : ""}`}
                   aria-current={active ? "page" : undefined}
-                  title={
-                    item.href === "/cooling-as-a-service"
-                      ? "Cooling as a Service"
-                      : undefined
-                  }
+                  onClick={() => setOpen(false)}
                 >
                   {item.label}
                 </Link>
                 {item.children && (
                   <div className="nav-dropdown">
                     {item.children.map((child) => (
-                      <Link key={child.href} href={child.href}>
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={() => setOpen(false)}
+                      >
                         {child.label}
                       </Link>
                     ))}
@@ -64,6 +65,7 @@ export default function SiteHeader() {
           <Link
             className="btn btn-primary btn-header header-cta-mobile"
             href={PRIMARY_CTA.href}
+            onClick={() => setOpen(false)}
           >
             {PRIMARY_CTA.label}
           </Link>

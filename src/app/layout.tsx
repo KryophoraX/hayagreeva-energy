@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, Sora } from "next/font/google";
-import ConditionalSiteHeader from "@/components/ConditionalSiteHeader";
+import SiteHeader from "@/components/SiteHeader";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import "./globals.css";
 import "@/styles/site.scss";
@@ -20,27 +20,27 @@ const ibmPlex = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hayagreevaenergy.com"),
+  metadataBase: new URL("https://hyperkool.ai"),
   title: {
-    default: "Hayagreeva Energy — AI Thermal Engineering as a Service",
-    template: "%s — Hayagreeva Energy",
+    default: "HyperKool — Advanced Liquid Cooling by Hayagreeva",
+    template: "%s — HyperKool",
   },
   description:
-    "Hayagreeva delivers direct-to-chip liquid cooling as a service for AI, HPC and accelerated computing — design, validation, deployment and operations.",
+    "HyperKool delivers custom cold plate design and GPU Cooling as a Service for AI, HPC and accelerated computing.",
   icons: {
     icon: "/assets/logo.png",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0d0f",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sora.variable} ${ibmPlex.variable}`}>
       <body>
-        <ConditionalSiteHeader />
+        <SiteHeader />
         {children}
         <ScrollAnimations />
       </body>
