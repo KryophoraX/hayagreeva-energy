@@ -484,6 +484,13 @@ body:has(.hk-home) {
   box-shadow: 0 6px 24px rgba(10, 33, 68, 0.04);
 }
 
+.hk-service__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
 @media (min-width: 640px) {
   .hk-service {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
@@ -557,6 +564,43 @@ body:has(.hk-home) {
   font-size: 0.58rem;
   font-weight: 700;
   line-height: 1;
+}
+
+.hk-service__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 42px;
+  margin-top: 1rem;
+  padding: 0.7rem 1.05rem;
+  color: #fff !important;
+  background: var(--hk-navy);
+  border: 1.5px solid var(--hk-navy);
+  border-radius: var(--hk-radius-pill);
+  font-family: var(--font-sora), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.hk-service__cta span {
+  transition: transform 0.18s ease;
+}
+
+.hk-service__cta:hover {
+  color: #fff !important;
+  background: #123b6a;
+  border-color: #123b6a;
+  transform: translateY(-1px);
+}
+
+.hk-service__cta:hover span {
+  transform: translateX(3px);
 }
 
 .hk-service__media {
@@ -702,7 +746,7 @@ body:has(.hk-home) {
   }
 
   .hk-service {
-    min-height: 352px;
+    min-height: 390px;
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
     gap: 1.5rem;
     padding: 1rem 2.25rem;
@@ -751,8 +795,15 @@ body:has(.hk-home) {
     font-size: 0.7rem;
   }
 
+  .hk-service__cta {
+    min-height: 48px;
+    margin-top: auto;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
   .hk-service__media {
-    min-height: 296px;
+    min-height: 328px;
     height: 100%;
     aspect-ratio: auto;
     border-radius: 0.55rem;

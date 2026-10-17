@@ -7,6 +7,7 @@ const MIN_FORM_DELAY_MS = 3000;
 
 const INTEREST_LABELS: Record<string, string> = {
   engineer: "Talk to a Thermal Engineer",
+  "form-factor": "Custom form factor / CAD submission",
   evaluation: "Request Service Evaluation",
   pilot: "Pilot engagement — Cooling as a Service",
   technical: "Technical information / fact sheet",
@@ -18,7 +19,7 @@ const INTEREST_LABELS: Record<string, string> = {
 
 const INTENT_MAP: Record<string, string> = {
   engineer: "engineer",
-  "form-factor": "engineer",
+  "form-factor": "form-factor",
   demo: "evaluation",
   evaluation: "evaluation",
   technical: "technical",
@@ -256,6 +257,7 @@ export default function ContactForm() {
           key={defaultInterest}
         >
           <option value="engineer">Talk to a Thermal Engineer</option>
+          <option value="form-factor">Custom form factor / CAD submission</option>
           <option value="evaluation">Request Service Evaluation</option>
           <option value="pilot">Pilot engagement — Cooling as a Service</option>
           <option value="technical">Technical information / fact sheet</option>
@@ -272,7 +274,11 @@ export default function ContactForm() {
           name="message"
           rows={5}
           maxLength={4000}
-          placeholder="Describe your platform, facility constraints, or question."
+          placeholder={
+            defaultInterest === "form-factor"
+              ? "Describe your form factor and include a secure CAD / STEP / DXF sharing link."
+              : "Describe your platform, facility constraints, or question."
+          }
         />
       </div>
       <button

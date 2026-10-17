@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import HyperKoolHero from "@/components/HyperKoolHero";
 import SiteFooter from "@/components/SiteFooter";
 import "@/styles/hyperkool-home.scss";
@@ -90,6 +91,13 @@ export default function HyperKoolPage() {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  className="hk-service__cta"
+                  href="/contact?intent=form-factor"
+                >
+                  Upload Your Form Factor
+                  <span aria-hidden>→</span>
+                </Link>
               </div>
               <div className="hk-service__media">
                 <Image
@@ -128,6 +136,13 @@ export default function HyperKoolPage() {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  className="hk-service__cta"
+                  href="/contact?intent=form-factor"
+                >
+                  Upload Your Form Factor
+                  <span aria-hidden>→</span>
+                </Link>
               </div>
               <div className="hk-service__media">
                 <Image

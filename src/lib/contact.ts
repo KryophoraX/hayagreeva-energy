@@ -1,5 +1,6 @@
 export const INTEREST_LABELS = {
   engineer: "Talk to a Thermal Engineer",
+  "form-factor": "Custom form factor / CAD submission",
   evaluation: "Request Service Evaluation",
   pilot: "Pilot engagement — Cooling as a Service",
   technical: "Technical information / fact sheet",
