@@ -67,9 +67,12 @@ export function isAllowedOrigin(request: Request): boolean {
     if (!value) return false;
     try {
       const url = new URL(value);
+      const isLoopback =
+        url.hostname === "127.0.0.1" || url.hostname === "localhost";
       const validProtocol =
         url.protocol === "https:" ||
-        (process.env.NODE_ENV !== "production" && url.protocol === "http:");
+        (url.protocol === "http:" &&
+          (process.env.NODE_ENV !== "production" || isLoopback));
       return validProtocol && allowedHosts.has(url.host.toLowerCase());
     } catch {
       return false;

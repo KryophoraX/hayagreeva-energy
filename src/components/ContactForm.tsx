@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const MIN_FORM_DELAY_MS = 3000;
+const MAX_PDF_BYTES = 8 * 1024 * 1024;
 
 const INTEREST_LABELS: Record<string, string> = {
   engineer: "Talk to a Thermal Engineer",
@@ -43,6 +44,7 @@ export default function ContactForm() {
     null
   );
   const [busy, setBusy] = useState(false);
+  const [drawingName, setDrawingName] = useState("");
   const intent = searchParams.get("intent") || "";
   const defaultInterest = INTENT_MAP[intent] || "engineer";
 
@@ -103,6 +105,9 @@ export default function ContactForm() {
     const interestValue = stripMarkup(String(data.get("interest") || ""));
     const message = stripMarkup(String(data.get("message") || ""));
     const token = String(data.get("csrf_token") || "");
+    const drawingValue = data.get("drawing");
+    const drawing =
+      drawingValue instanceof File && drawingValue.size > 0 ? drawingValue : null;
 
     if (!name || name.length < 2 || name.length > 120) {
       setStatus({
@@ -136,6 +141,20 @@ export default function ContactForm() {
       return;
     }
 
+    if (drawing) {
+      if (
+        drawing.type !== "application/pdf" ||
+        !drawing.name.toLowerCase().endsWith(".pdf")
+      ) {
+        setStatus({ message: "Drawing attachment must be a PDF file.", error: true });
+        return;
+      }
+      if (drawing.size > MAX_PDF_BYTES) {
+        setStatus({ message: "PDF drawing exceeds the 8 MB limit.", error: true });
+        return;
+      }
+    }
+
     if (!token || token !== csrfToken) {
       setStatus({
         message: "Security token expired. Refresh and try again.",
@@ -147,27 +166,24 @@ export default function ContactForm() {
     setBusy(true);
     setStatus({ message: "Sending your inquiry…", error: false });
 
-    const payload = {
-      name,
-      email,
-      company: company || "—",
-      interest: interestValue,
-      message: message || "—",
-      website: honeypot,
-      csrfToken: token,
-      startedAt: startedAt.current,
-    };
+    const payload = new FormData();
+    payload.set("name", name);
+    payload.set("email", email);
+    payload.set("company", company || "—");
+    payload.set("interest", interestValue);
+    payload.set("message", message || "—");
+    payload.set("website", honeypot);
+    payload.set("csrfToken", token);
+    payload.set("startedAt", String(startedAt.current));
+    if (drawing) payload.set("drawing", drawing, drawing.name);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         credentials: "same-origin",
         cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body: payload,
       });
 
       const result = (await response.json().catch(() => ({}))) as {
@@ -184,6 +200,7 @@ export default function ContactForm() {
         error: false,
       });
       setCsrfToken("");
+      setDrawingName("");
       form.reset();
     } catch (error) {
       setStatus({
@@ -199,7 +216,13 @@ export default function ContactForm() {
   }
 
   return (
-    <form className="contact-form" onSubmit={onSubmit} autoComplete="on" noValidate>
+    <form
+      className="contact-form"
+      onSubmit={onSubmit}
+      autoComplete="on"
+      encType="multipart/form-data"
+      noValidate
+    >
       <input type="hidden" name="csrf_token" value={csrfToken} />
       <div className="form-honeypot" aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -281,6 +304,31 @@ export default function ContactForm() {
           }
         />
       </div>
+      <details
+        className="form-drawing"
+        open={defaultInterest === "form-factor"}
+      >
+        <summary>
+          <span>PDF drawings</span>
+          <small>Optional · PDF only · 8 MB maximum</small>
+        </summary>
+        <label className="form-drawing__dropzone">
+          <input
+            name="drawing"
+            type="file"
+            accept=".pdf,application/pdf"
+            onChange={(event) =>
+              setDrawingName(event.currentTarget.files?.[0]?.name || "")
+            }
+          />
+          <strong>{drawingName || "Drop a PDF drawing here or browse"}</strong>
+          <span>
+            {drawingName
+              ? "PDF selected — choose again to replace it"
+              : "Mechanical drawings, package outlines or marked-up requirements"}
+          </span>
+        </label>
+      </details>
       <button
         className="btn btn-primary btn-lg"
         type="submit"

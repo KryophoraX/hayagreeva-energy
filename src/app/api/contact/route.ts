@@ -13,18 +13,8 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 
 const CSRF_COOKIE = "hg_csrf";
-const MAX_BODY_BYTES = 12_000;
-
-type ContactBody = {
-  name?: unknown;
-  email?: unknown;
-  company?: unknown;
-  interest?: unknown;
-  message?: unknown;
-  website?: unknown;
-  csrfToken?: unknown;
-  startedAt?: unknown;
-};
+const MAX_PDF_BYTES = 8 * 1024 * 1024;
+const MAX_BODY_BYTES = MAX_PDF_BYTES + 256 * 1024;
 
 function jsonError(
   message: string,
@@ -49,8 +39,8 @@ function tokensMatch(left: string, right: string) {
   );
 }
 
-async function readJsonBody(request: Request): Promise<ContactBody> {
-  if (!request.body) return {};
+async function readBoundedBody(request: Request) {
+  if (!request.body) return new Uint8Array();
 
   const reader = request.body.getReader();
   const chunks: Uint8Array[] = [];
@@ -74,7 +64,7 @@ async function readJsonBody(request: Request): Promise<ContactBody> {
     offset += chunk.byteLength;
   }
 
-  return JSON.parse(new TextDecoder().decode(body)) as ContactBody;
+  return body;
 }
 
 export async function POST(request: Request) {
@@ -83,7 +73,7 @@ export async function POST(request: Request) {
   }
 
   const contentType = request.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) {
+  if (!contentType.includes("multipart/form-data")) {
     return jsonError("Unsupported media type.", 415);
   }
 
@@ -100,30 +90,44 @@ export async function POST(request: Request) {
     });
   }
 
-  let body: ContactBody;
+  let body: FormData;
   try {
-    body = await readJsonBody(request);
+    const rawBody = await readBoundedBody(request);
+    const parseRequest = new Request(request.url, {
+      method: "POST",
+      headers: { "Content-Type": contentType },
+      body: rawBody,
+    });
+    body = await parseRequest.formData();
   } catch (error) {
     if (error instanceof Error && error.message === "PAYLOAD_TOO_LARGE") {
       return jsonError("Payload too large.", 413);
     }
-    return jsonError("Invalid JSON body.", 400);
+    return jsonError("Invalid form body.", 400);
   }
 
-  const honeypot = stripMarkup(String(body.website || ""));
+  const field = (name: string) => {
+    const value = body.get(name);
+    return typeof value === "string" ? value : "";
+  };
+
+  const honeypot = stripMarkup(field("website"));
   if (honeypot) {
     // Silent success for bots
-    return NextResponse.json({ ok: true });
+    return NextResponse.json(
+      { ok: true },
+      { headers: { "Cache-Control": "no-store" } }
+    );
   }
 
   const cookieStore = await cookies();
   const csrfCookie = cookieStore.get(CSRF_COOKIE)?.value || "";
-  const csrfToken = String(body.csrfToken || "");
+  const csrfToken = field("csrfToken");
   if (!csrfCookie || !csrfToken || !tokensMatch(csrfCookie, csrfToken)) {
     return jsonError("Security token invalid. Refresh and try again.", 403);
   }
 
-  const startedAt = Number(body.startedAt || 0);
+  const startedAt = Number(field("startedAt") || 0);
   if (!Number.isFinite(startedAt) || Date.now() - startedAt < 2500) {
     return jsonError("Please wait a moment before submitting.", 400);
   }
@@ -131,11 +135,14 @@ export async function POST(request: Request) {
     return jsonError("Form session expired. Refresh and try again.", 400);
   }
 
-  const name = stripMarkup(String(body.name || ""));
-  const email = stripMarkup(String(body.email || "")).toLowerCase();
-  const company = stripMarkup(String(body.company || ""));
-  const interestValue = stripMarkup(String(body.interest || "")) as InterestKey;
-  const message = stripMarkup(String(body.message || ""));
+  const name = stripMarkup(field("name"));
+  const email = stripMarkup(field("email")).toLowerCase();
+  const company = stripMarkup(field("company"));
+  const interestValue = stripMarkup(field("interest")) as InterestKey;
+  const message = stripMarkup(field("message"));
+  const drawingValue = body.get("drawing");
+  const drawing =
+    drawingValue instanceof File && drawingValue.size > 0 ? drawingValue : null;
 
   if (!name || name.length < 2 || name.length > 120) {
     return jsonError("Enter a valid name (2–120 characters).", 400);
@@ -152,6 +159,22 @@ export async function POST(request: Request) {
   if (message.length > 4000) {
     return jsonError("Message exceeds the 4,000 character limit.", 400);
   }
+  if (drawing) {
+    const validName = drawing.name.toLowerCase().endsWith(".pdf");
+    const validType = drawing.type === "application/pdf";
+    if (!validName || !validType) {
+      return jsonError("Drawing attachment must be a PDF file.", 400);
+    }
+    if (drawing.size > MAX_PDF_BYTES) {
+      return jsonError("PDF drawing exceeds the 8 MB limit.", 413);
+    }
+    const signature = new TextDecoder().decode(
+      await drawing.slice(0, 5).arrayBuffer()
+    );
+    if (signature !== "%PDF-") {
+      return jsonError("Drawing attachment is not a valid PDF.", 400);
+    }
+  }
 
   const interestLabel = INTEREST_LABELS[interestValue];
   const toEmail =
@@ -160,27 +183,29 @@ export async function POST(request: Request) {
     process.env.FORMSUBMIT_ENDPOINT ||
     `https://formsubmit.co/ajax/${encodeURIComponent(toEmail)}`;
 
-  const payload = {
-    name,
-    email,
-    company: company || "—",
-    interest: interestLabel,
-    message: message || "—",
-    _subject: `Hayagreeva inquiry — ${interestLabel}`,
-    _template: "table",
-    _replyto: email,
-    _honey: "",
-    _blacklist: "spam,viagra,crypto",
-  };
+  const payload = new FormData();
+  payload.set("name", name);
+  payload.set("email", email);
+  payload.set("company", company || "—");
+  payload.set("interest", interestLabel);
+  payload.set("message", message || "—");
+  payload.set("_subject", `Hayagreeva inquiry — ${interestLabel}`);
+  payload.set("_template", "table");
+  payload.set("_replyto", email);
+  payload.set("_honey", "");
+  payload.set("_blacklist", "spam,viagra,crypto");
+  if (drawing) {
+    const safeName = drawing.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    payload.set("attachment", drawing, safeName);
+  }
 
   try {
     const upstream = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(payload),
+      body: payload,
       cache: "no-store",
     });
 
