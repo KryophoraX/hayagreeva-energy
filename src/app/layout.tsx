@@ -22,8 +22,8 @@ const ibmPlex = IBM_Plex_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hyperkool.ai"),
   title: {
-    default: "Hayagreeva",
-    template: "%s — Hayagreeva",
+    default: "Hayagreeva Energy",
+    template: "%s — Hayagreeva Energy",
   },
   description:
     "HyperKool delivers custom cold plate design and GPU Cooling as a Service for AI, HPC and accelerated computing.",
