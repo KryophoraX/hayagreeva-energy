@@ -58,18 +58,37 @@ export default function ScrollAnimations() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const scrollToHash = () => {
-      const id = decodeURIComponent(window.location.hash.slice(1));
-      if (!id) return;
+    let frame = 0;
 
-      window.requestAnimationFrame(() => {
-        document.getElementById(id)?.scrollIntoView({ block: "start" });
+    const getHashTarget = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      return id ? document.getElementById(id) : null;
+    };
+
+    const resetRouteScroll = () => {
+      frame = window.requestAnimationFrame(() => {
+        const target = getHashTarget();
+        if (target) {
+          target.scrollIntoView({ behavior: "auto", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        }
       });
     };
 
-    scrollToHash();
+    const scrollToHash = () => {
+      getHashTarget()?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    };
+
+    resetRouteScroll();
     window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", scrollToHash);
+    };
   }, [pathname]);
 
   useEffect(() => {
