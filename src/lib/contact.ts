@@ -1,13 +1,13 @@
 export const INTEREST_LABELS = {
-  engineer: "Talk to a Thermal Engineer",
-  "form-factor": "Custom form factor / CAD submission",
-  evaluation: "Request Service Evaluation",
-  pilot: "Pilot engagement — Cooling as a Service",
-  technical: "Technical information / fact sheet",
-  oem: "OEM / co-development partnership",
-  caas: "Cooling as a Service",
-  career: "Career inquiry",
-  media: "Media / press",
+  engineer: "Talk to a Cooling Expert",
+  "form-factor": "Upload a Drawing",
+  evaluation: "Request a Quote",
+  pilot: "Start a Cooling Project",
+  technical: "Get Technical Information",
+  oem: "Partner With Us",
+  caas: "GPU Cooling Service",
+  career: "Jobs",
+  media: "Press / Media",
 } as const;
 
 export type InterestKey = keyof typeof INTEREST_LABELS;

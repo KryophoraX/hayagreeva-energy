@@ -8,7 +8,7 @@ import ContactForm from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Talk to a Hayagreeva thermal engineer or engage Cooling as a Service.",
+    "Tell Hayagreeva Energy about your cooling project.",
 };
 
 export default function ContactPage() {
@@ -17,30 +17,29 @@ export default function ContactPage() {
       <main className="page-main">
         <PageHero
           kicker="Contact"
-          title="Talk to a thermal engineer"
-          lead="Start a Cooling as a Service conversation, request technical data, or discuss OEM co-engineering."
+          title="Tell us what you need to cool"
+          lead="Send us your drawing or describe your project. We will help you choose the next step."
           image="/assets/stock/hero-servers.jpg"
         />
         <section className="section section-elevated">
           <div className="container split">
             <div>
-              <h2 className="section-title">How we engage</h2>
+              <h2 className="section-title">How we can help</h2>
               <div
                 className="card-grid card-grid--2"
                 style={{ marginTop: "1.5rem" }}
               >
                 <article className="card">
-                  <h3>Talk to a Thermal Engineer</h3>
+                  <h3>Plan Your Cooling</h3>
                   <p>
-                    Platform requirements, heat maps, flow constraints and
-                    co-design discussions.
+                    Tell us about your hardware, heat, space, and coolant needs.
                   </p>
                 </article>
                 <article className="card">
-                  <h3>Engage Cooling as a Service</h3>
+                  <h3>Build and Install It</h3>
                   <p>
-                    Service evaluation for qualified operators, OEMs and
-                    infrastructure partners.
+                    We can design, test, install, and support your cooling
+                    system.
                   </p>
                 </article>
               </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PRIMARY_CTA, SECONDARY_CTA } from "@/lib/nav";
+import { FOOTER_SECTIONS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/nav";
 
 const SOCIAL = [
   {
@@ -53,60 +53,22 @@ export default function SiteFooter() {
             Custom cold plate design · GPU Cooling as a Service
           </p>
         </div>
-        <div>
-          <h3 className="footer-heading">Explore</h3>
-          <ul className="footer-links">
-            <li>
-              <Link href="/technology">Technology</Link>
-            </li>
-            <li>
-              <Link href="/solutions">Solutions</Link>
-            </li>
-            <li>
-              <Link href="/engineering">Engineering</Link>
-            </li>
-            <li>
-              <Link href="/cooling-as-a-service">Cooling as a Service</Link>
-            </li>
-            <li>
-              <Link href="/">HyperKool Home</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="footer-heading">Programs</h3>
-          <ul className="footer-links">
-            <li>
-              <Link href="/resources">Resources</Link>
-            </li>
-            <li>
-              <Link href="/company/partners">Partners</Link>
-            </li>
-            <li>
-              <Link href="/company/careers">Careers</Link>
-            </li>
-            <li>
-              <Link href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="footer-heading">Company</h3>
-          <ul className="footer-links">
-            <li>
-              <Link href="/company">About</Link>
-            </li>
-            <li>
-              <Link href="/company/leadership">Leadership</Link>
-            </li>
-            <li>
-              <Link href="/contact">Contact</Link>
-            </li>
-            <li>
-              <Link href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</Link>
-            </li>
-          </ul>
-        </div>
+        {FOOTER_SECTIONS.map((section) => (
+          <div key={section.heading}>
+            <h3 className="footer-heading">{section.heading}</h3>
+            <ul className="footer-links">
+              {section.links.map((link) => (
+                <li key={link.href}>
+                  {link.href.includes("#") ? (
+                    <a href={link.href}>{link.label}</a>
+                  ) : (
+                    <Link href={link.href}>{link.label}</Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
       <div className="footer-bar">
         <div>

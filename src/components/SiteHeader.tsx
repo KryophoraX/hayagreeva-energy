@@ -3,12 +3,52 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NAV_LINKS, PRIMARY_CTA } from "@/lib/nav";
+
+function pathIsActive(pathname: string, hash: string, href: string) {
+  const [targetPath, targetHash] = href.split("#");
+
+  if (targetHash) {
+    return pathname === targetPath && hash === `#${targetHash}`;
+  }
+
+  if (targetPath === "/") {
+    return pathname === "/" && !hash;
+  }
+
+  return pathname === targetPath || pathname.startsWith(`${targetPath}/`);
+}
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [openOnPath, setOpenOnPath] = useState<string | null>(null);
+  const [hash, setHash] = useState("");
+  const open = openOnPath === pathname;
+
+  useEffect(() => {
+    const updateHash = () => setHash(window.location.hash);
+    updateHash();
+    window.addEventListener("hashchange", updateHash);
+    return () => window.removeEventListener("hashchange", updateHash);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenOnPath(null);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
 
   return (
     <header className="site-header">
@@ -17,7 +57,7 @@ export default function SiteHeader() {
           className="site-logo"
           href="/"
           aria-label="Hayagreeva HyperKool home"
-          onClick={() => setOpen(false)}
+          onClick={() => setOpenOnPath(null)}
         >
           <Image
             src="/assets/hyperkool/logo.png"
@@ -35,28 +75,52 @@ export default function SiteHeader() {
         >
           {NAV_LINKS.map((item) => {
             const active =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+              pathIsActive(pathname, hash, item.href) ||
+              item.children?.some((child) =>
+                pathIsActive(pathname, hash, child.href)
+              );
             return (
               <div className="nav-item" key={item.href}>
                 <Link
                   href={item.href}
                   className={`nav-link${active ? " is-active" : ""}`}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
+                  aria-current={
+                    pathIsActive(pathname, hash, item.href)
+                      ? item.href.includes("#")
+                        ? "location"
+                        : "page"
+                      : undefined
+                  }
+                  onClick={() => setOpenOnPath(null)}
                 >
                   {item.label}
                 </Link>
                 {item.children && (
                   <div className="nav-dropdown">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        onClick={() => setOpen(false)}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                    {item.children.map((child) => {
+                      const childActive = pathIsActive(
+                        pathname,
+                        hash,
+                        child.href
+                      );
+                      const linkProps = {
+                        className: childActive ? "is-active" : undefined,
+                        "aria-current": childActive
+                          ? (child.href.includes("#") ? "location" : "page")
+                          : undefined,
+                        onClick: () => setOpenOnPath(null),
+                      } as const;
+
+                      return child.href.includes("#") ? (
+                        <a key={child.href} href={child.href} {...linkProps}>
+                          {child.label}
+                        </a>
+                      ) : (
+                        <Link key={child.href} href={child.href} {...linkProps}>
+                          {child.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -65,7 +129,7 @@ export default function SiteHeader() {
           <Link
             className="btn btn-primary btn-header header-cta-mobile"
             href={PRIMARY_CTA.href}
-            onClick={() => setOpen(false)}
+            onClick={() => setOpenOnPath(null)}
           >
             {PRIMARY_CTA.label}
           </Link>
@@ -83,12 +147,15 @@ export default function SiteHeader() {
             type="button"
             aria-expanded={open}
             aria-controls="site-nav"
-            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpenOnPath(open ? null : pathname)}
           >
             <span className="nav-toggle__bar" />
             <span className="nav-toggle__bar" />
             <span className="nav-toggle__bar" />
-            <span className="visually-hidden">Menu</span>
+            <span className="visually-hidden">
+              {open ? "Close menu" : "Open menu"}
+            </span>
           </button>
         </div>
       </div>

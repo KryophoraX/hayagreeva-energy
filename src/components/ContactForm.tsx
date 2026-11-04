@@ -7,15 +7,15 @@ const MIN_FORM_DELAY_MS = 3000;
 const MAX_PDF_BYTES = 8 * 1024 * 1024;
 
 const INTEREST_LABELS: Record<string, string> = {
-  engineer: "Talk to a Thermal Engineer",
-  "form-factor": "Custom form factor / CAD submission",
-  evaluation: "Request Service Evaluation",
-  pilot: "Pilot engagement — Cooling as a Service",
-  technical: "Technical information / fact sheet",
-  oem: "OEM / co-development partnership",
-  caas: "Cooling as a Service",
-  career: "Career inquiry",
-  media: "Media / press",
+  engineer: "Talk to a Cooling Expert",
+  "form-factor": "Upload a Drawing",
+  evaluation: "Request a Quote",
+  pilot: "Start a Cooling Project",
+  technical: "Get Technical Information",
+  oem: "Partner With Us",
+  caas: "GPU Cooling Service",
+  career: "Jobs",
+  media: "Press / Media",
 };
 
 const INTENT_MAP: Record<string, string> = {
@@ -196,7 +196,7 @@ export default function ContactForm() {
       }
 
       setStatus({
-        message: "Thank you. Your inquiry was sent to Hayagreeva Energy.",
+        message: "Thanks. We received your request.",
         error: false,
       });
       setCsrfToken("");
@@ -279,15 +279,15 @@ export default function ContactForm() {
           defaultValue={defaultInterest}
           key={defaultInterest}
         >
-          <option value="engineer">Talk to a Thermal Engineer</option>
-          <option value="form-factor">Custom form factor / CAD submission</option>
-          <option value="evaluation">Request Service Evaluation</option>
-          <option value="pilot">Pilot engagement — Cooling as a Service</option>
-          <option value="technical">Technical information / fact sheet</option>
-          <option value="oem">OEM / co-development partnership</option>
-          <option value="caas">Cooling as a Service</option>
-          <option value="career">Career inquiry</option>
-          <option value="media">Media / press</option>
+          <option value="engineer">Talk to a Cooling Expert</option>
+          <option value="form-factor">Upload a Drawing</option>
+          <option value="evaluation">Request a Quote</option>
+          <option value="pilot">Start a Cooling Project</option>
+          <option value="technical">Get Technical Information</option>
+          <option value="oem">Partner With Us</option>
+          <option value="caas">GPU Cooling Service</option>
+          <option value="career">Jobs</option>
+          <option value="media">Press / Media</option>
         </select>
       </div>
       <div className="form-row">
@@ -299,8 +299,8 @@ export default function ContactForm() {
           maxLength={4000}
           placeholder={
             defaultInterest === "form-factor"
-              ? "Describe your form factor and include a secure CAD / STEP / DXF sharing link."
-              : "Describe your platform, facility constraints, or question."
+              ? "Tell us what the part needs to fit and how much heat it must cool."
+              : "Tell us what you need help with."
           }
         />
       </div>
@@ -309,8 +309,8 @@ export default function ContactForm() {
         open={defaultInterest === "form-factor"}
       >
         <summary>
-          <span>PDF drawings</span>
-          <small>Optional · PDF only · 8 MB maximum</small>
+          <span>Upload a PDF drawing</span>
+          <small>Optional · Up to 8 MB</small>
         </summary>
         <label className="form-drawing__dropzone">
           <input
@@ -321,11 +321,11 @@ export default function ContactForm() {
               setDrawingName(event.currentTarget.files?.[0]?.name || "")
             }
           />
-          <strong>{drawingName || "Drop a PDF drawing here or browse"}</strong>
+          <strong>{drawingName || "Drop your PDF here or choose a file"}</strong>
           <span>
             {drawingName
-              ? "PDF selected — choose again to replace it"
-              : "Mechanical drawings, package outlines or marked-up requirements"}
+              ? "File ready — choose again to replace it"
+              : "Add a drawing that shows the size and shape"}
           </span>
         </label>
       </details>
@@ -335,12 +335,11 @@ export default function ContactForm() {
         disabled={busy || !csrfToken}
         aria-busy={busy}
       >
-        Submit inquiry
+        Send Request
       </button>
       <p className="form-privacy muted">
-        Protected with honeypot, timing checks, rate limiting, input
-        sanitization, and encrypted delivery to Hayagreeva Energy. Do not
-        include passwords or confidential credentials in this form.
+        Your information is sent securely. Do not include passwords or other
+        private login details.
       </p>
       {status && (
         <p

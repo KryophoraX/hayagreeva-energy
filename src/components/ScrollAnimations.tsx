@@ -58,6 +58,21 @@ export default function ScrollAnimations() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const scrollToHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      if (!id) return;
+
+      window.requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ block: "start" });
+      });
+    };
+
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, [pathname]);
+
+  useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
       document.documentElement.classList.add("motion-reduce");

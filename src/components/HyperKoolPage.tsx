@@ -72,16 +72,16 @@ export default function HyperKoolPage() {
                 <div className="hk-service__icon" aria-hidden>
                   <IconCube />
                 </div>
-                <h2 className="hk-service__title">Custom Cold Plate Design</h2>
+                <h2 className="hk-service__title">Custom Cold Plates</h2>
                 <p className="hk-service__body">
-                  Submit your form factor and requirements. We design and deliver
-                  a high-performance cold plate tailored to your application.
+                  Send us your drawing and cooling needs. We build a cold plate
+                  that fits your hardware.
                 </p>
                 <ul className="hk-check">
                   {[
-                    "Upload CAD / STEP / DXF",
-                    "Share thermal & flow requirements",
-                    "Prototype to production",
+                    "Upload a PDF drawing",
+                    "Tell us your heat and flow needs",
+                    "From first sample to production",
                   ].map((item) => (
                     <li key={item}>
                       <span className="hk-check__mark" aria-hidden>
@@ -95,7 +95,7 @@ export default function HyperKoolPage() {
                   className="hk-service__cta"
                   href="/contact?intent=form-factor"
                 >
-                  Upload Your Form Factor
+                  Upload Your Drawing
                   <span aria-hidden>→</span>
                 </Link>
               </div>
@@ -116,17 +116,17 @@ export default function HyperKoolPage() {
                 <div className="hk-service__icon" aria-hidden>
                   <IconCloud />
                 </div>
-                <h2 className="hk-service__title">GPU Cooling as a Service</h2>
+                <h2 className="hk-service__title">GPU Cooling Service</h2>
                 <p className="hk-service__body">
-                  End-to-end GPU cooling support to deploy and operate
-                  high-performance AI infrastructure.
+                  We help plan, test, install, and support liquid cooling for AI
+                  servers.
                 </p>
                 <ul className="hk-check">
                   {[
-                    "Design support",
-                    "Validation & qualification",
-                    "Deployment support",
-                    "Lifecycle optimization",
+                    "Cooling design",
+                    "Testing",
+                    "Installation help",
+                    "Ongoing support",
                   ].map((item) => (
                     <li key={item}>
                       <span className="hk-check__mark" aria-hidden>
@@ -140,7 +140,7 @@ export default function HyperKoolPage() {
                   className="hk-service__cta"
                   href="/contact?intent=form-factor"
                 >
-                  Upload Your Form Factor
+                  Upload Your Drawing
                   <span aria-hidden>→</span>
                 </Link>
               </div>
@@ -163,23 +163,23 @@ export default function HyperKoolPage() {
             {[
               {
                 icon: <IconHeat />,
-                title: "High Heat Flux",
-                body: "Engineered for next-gen chips and ultra-high power densities.",
+                title: "Handles More Heat",
+                body: "Built for powerful AI chips.",
               },
               {
                 icon: <IconDrop />,
-                title: "Low Pressure Drop",
-                body: "Optimized flow paths for efficient system design.",
+                title: "Easy Coolant Flow",
+                body: "Designed to move coolant efficiently.",
               },
               {
                 icon: <IconLayers />,
-                title: "Scalable Design",
-                body: "From racks to multi-megawatt deployments.",
+                title: "Built to Scale",
+                body: "Works from one rack to a large data center.",
               },
               {
                 icon: <IconShield />,
-                title: "Validation Ready",
-                body: "Proven performance, reliability and qualification support.",
+                title: "Ready to Test",
+                body: "We help check performance and reliability.",
               },
             ].map((item) => (
               <div className="hk-benefit" key={item.title}>
