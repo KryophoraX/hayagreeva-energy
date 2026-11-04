@@ -349,6 +349,15 @@ textarea {
     z-index: 50;
   }
 
+  .nav-dropdown::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    left: 0;
+    height: 0.8rem;
+  }
+
   .nav-dropdown a {
     padding: 0.55rem 0.65rem;
     border-radius: var(--radius);
